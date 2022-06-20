@@ -2,10 +2,7 @@
 *  Foundation
 *  ======================================== */
 
+@forward './variables';
 @forward './media';
 @forward './mixin';
-@forward './color';
-@forward './font';
-@forward './layout';
-@forward './base';
-@forward './common';
+@forward './setting';

@@ -1,0 +1,31 @@
+:root {
+  // ======================================
+  // Font
+  // ======================================
+  --font-gothic: 'Noto Sans JP', 'Helvetica Neue', Arial,
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  --font-gothic: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans', Meiryo, sans-serif;
+  --font-en-decoration: 'Poppins', sans-serif;
+
+  // ======================================
+  // Color
+  // ======================================
+  --color-main: #002896;
+  --color-secondary: #dbe4ff;
+  --color-accent-light: #f8faff;
+  --color-accent-dark: #bf0000;
+  --color-background: #f7f7f7;
+  --color-border: #dedede;
+  --color-side-border: #ededed;
+  --color-white: #fff;
+  --color-black: #09090c;
+  --color-gray: #aaa;
+  // ======================================
+  // Layout
+  // ======================================
+  --header-height-sp: 3.75rem; //60px
+  --header-height-pc: 8rem; //128px
+  --header-height-pc-tight: 4.5rem; //72px
+  --conversion-height-sp: 3.75rem; //60px
+}
