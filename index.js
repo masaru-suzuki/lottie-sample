@@ -4,8 +4,8 @@ const connectSSI = require('connect-ssi')
 const path = require('path')
 
 const PORT = process.env.PORT || 3000
-const BASIC_AUTH_USER = process.env.BASIC_AUTH_USER
-const BASIC_AUTH_PASS = process.env.BASIC_AUTH_PASS
+const BASIC_AUTH_USER = process.env.USER
+const BASIC_AUTH_PASS = process.env.PASS
 
 const docRoot = path.join(__dirname, 'public')
 
