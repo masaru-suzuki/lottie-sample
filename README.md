@@ -3,6 +3,14 @@
 - **こちらのリポジトリをコピーして個人・企業問わず開発に使ってかまいません。あくまでも参考用のコードのため、利用による責任は追いかねます。**
 - 不具合などがあれば [Twitter](https://twitter.com/masapo62106181)かプルリクエストを作成してください。
 
+## Basic認証をHerokuで設定する
+1. herokuアプリのダッシュボードに入り `settings` から `Reveal Config Vars` をクリック
+2. `KEY` に `USER` と入力
+3. `VALUE` に Basic認証で使うユーザー名を入力
+4. `KEY` に `PASS` と入力
+5. `VALUE` に Basic認証で使うパスワードを入力（[このサイト](https://www.luft.co.jp/cgi/randam.php)で乱数を作ると楽)
+
+
 <br>
 <br>
 <br>
@@ -41,6 +49,7 @@
     - [開発環境実行](#開発環境実行)
     - [heroku への反映](#heroku-への反映)
     - [注意事項](#注意事項)
+
 
 ## 対応 OS・ブラウザ
 
