@@ -1,0 +1,34 @@
+include /views/_components/_mixins
+
+block variable
+  -
+    var page= {
+      title: site.title,
+      description: site.description,
+      keywords: '',
+      url: site.url,
+      dir: '/',
+      ogimage: '/assets/images/ogp.png',
+      type: 'article',
+      appId: '', // ページ別JSの起動トリガーとなるID
+      bodyClassName: '',
+      locale: site.locale,
+      conversionEx: false,
+      crumbs: [],
+      mainType: ''
+    }
+
+doctype
+html(lang="ja")
+  head
+    include /views/_components/_meta
+    block preload
+    //#include virtual="/includes/meta.html"
+  body(data-app=page.appId, class=page.bodyClassName)
+    //#include virtual="/includes/header.html"
+
+    main#pageTop.main
+      +crumbs(page.crumbs)
+      block main
+    unless page.type == 'website' || page.appId == "Inquiry"
+    //#include virtual="/includes/footer.html"

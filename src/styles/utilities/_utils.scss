@@ -1,0 +1,121 @@
+@use '../foundation/index' as *;
+
+// --------------------
+// Display
+// --------------------
+
+.u-br {
+  display: block;
+}
+
+.u-ib {
+  display: inline-block;
+}
+
+.u-hidden {
+  display: none;
+}
+
+.u-hiddenSp {
+  display: none;
+
+  @include media() {
+    display: block;
+  }
+}
+
+.u-hiddenPc {
+  @include media() {
+    display: none;
+  }
+}
+
+.u-jaStringBreakControl {
+  @include jaStringBreakControl();
+}
+
+// --------------------
+// Text
+// --------------------
+
+.u-taL {
+  text-align: left !important;
+}
+
+.u-taR {
+  text-align: right !important;
+}
+
+.u-taC {
+  text-align: center !important;
+}
+
+@include media('md') {
+  .u-taL-pc {
+    text-align: left !important;
+  }
+
+  .u-taR-pc {
+    text-align: right !important;
+  }
+
+  .u-taC-pc {
+    text-align: center !important;
+  }
+}
+
+.u-bold {
+  font-weight: 600 !important;
+}
+
+.u-italic {
+  font-style: italic !important;
+}
+
+.u-ttU {
+  text-transform: uppercase !important;
+}
+
+.u-ttL {
+  text-transform: lowercase !important;
+}
+
+// --------------------
+// Margin
+// --------------------
+
+.u-mt0 {
+  margin-top: 0 !important;
+}
+.u-mb0 {
+  margin-bottom: 0 !important;
+}
+
+// --------------------
+// Padding
+// --------------------
+.u-pb0 {
+  padding-bottom: 0 !important;
+}
+.u-pt0 {
+  padding-top: 0 !important;
+}
+
+// --------------------
+// scroll-margin-top
+// --------------------
+.u-scrollMarginTight {
+  scroll-margin-top: var(--header-height-sp) !important;
+
+  @include media() {
+    scroll-margin-top: var(--header-height-pc-tight) !important;
+  }
+}
+
+.u-scrollMarginWide {
+  scroll-margin-top: var(--header-height-sp) !important;
+
+  @include media() {
+    scroll-margin-top: calc(var(--header-height-pc-tight) + 3.5rem) !important;
+  }
+}

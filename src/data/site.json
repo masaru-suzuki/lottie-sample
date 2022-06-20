@@ -1,0 +1,10 @@
+{
+  "root": "/",
+  "url": "https://example.co.jp",
+  "locale": "ja_jp",
+  "title": "example",
+  "description": "desc",
+  "fbAppId": "123456789",
+  "articlePublisher": "https://www.facebook.com/exmaple",
+  "ogpImage": "https://example.co.jp/assets/images/ogp.png"
+}

@@ -1,0 +1,225 @@
+@use 'sass:math';
+@use './media' as *;
+
+// --------------------
+// Function
+// --------------------
+
+@function rem($px) {
+  @return math.div($px, 16) * 1rem;
+}
+
+@function vw($px, $vw: 1280) {
+  @return math.div($px, $vw) * 100vw;
+}
+
+@function fluidMaxSize($px, $vw: 1280) {
+  @return min(vw($px, $vw), rem($px));
+}
+
+@function fluidMinSize($px, $vw: 1280) {
+  @return max(vw($px, $vw), rem($px));
+}
+
+@function stuffHalfLineHeight($fz, $lh) {
+  // @return math.div(($fz * $lh - $fz), 2);
+  @return rem(math.div(($fz * $lh - $fz), 2) * -1);
+}
+
+// --------------------
+// Mixin
+// --------------------
+
+@mixin scrollMarginTop_normal() {
+  scroll-margin-top: calc(var(--header-height-sp) + 2rem);
+
+  @include media() {
+    scroll-margin-top: calc(var(--header-height-pc-tight) - 3rem);
+  }
+}
+
+@mixin scrollMarginTop_tight() {
+  scroll-margin-top: var(--header-height-sp);
+
+  @include media() {
+    scroll-margin-top: var(--header-height-pc-tight);
+  }
+}
+
+@mixin scrollMarginTop_wide() {
+  scroll-margin-top: var(--header-height-sp);
+
+  @include media() {
+    scroll-margin-top: calc(var(--header-height-pc-tight) + 3.5rem);
+  }
+}
+
+// Button Animation
+@mixin bgSlideAnimation() {
+  display: block;
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  background-color: var(--color-secondary);
+  transition: width 0.2s;
+}
+
+@mixin bgSlideAnimation-hover() {
+  width: 100%;
+}
+
+@mixin lineAnimation() {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-main);
+  transition: 0.2s ease;
+}
+
+@mixin lineAnimation-hover() {
+  width: 100%;
+}
+
+@mixin iconExpandTrue() {
+  .c-icon-expand {
+    &::after {
+      transform: none;
+    }
+  }
+}
+
+@mixin iconBlank() {
+  &::after {
+    display: inline-block;
+    content: '';
+    width: rem(16);
+    height: rem(16);
+    background: url('/assets2022/images/icon_blank.svg') no-repeat left top /
+      100% 100%;
+  }
+}
+
+@mixin iconZoom() {
+  &::after {
+    display: block;
+    content: '';
+    width: 32px;
+    height: 32px;
+    background: var(--color-main) url('/assets/images/icon_zoom.svg') no-repeat
+      7px 7px / 19px 19px;
+    color: #fff;
+  }
+}
+
+@mixin hoverAction($name: 'transparent') {
+  @if $name == 'transparent' {
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  @if $name == 'fill-in' {
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+@mixin headingLeftBorder($line-height, $width: 4px) {
+  &::before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: calc(50%);
+    left: 0;
+    height: calc(
+      100% + ((1 - #{$line-height}) * 1em) + rem(6)
+    ); //+6は補正：文字高ママでいいなら不要
+    width: $width;
+    background-color: var(--color-main);
+    transform: translateY(
+      calc(-50% + rem(1))
+    ); //+1はNoto Sans用の補正（やや下ズレするため）
+  }
+}
+
+@mixin lineHeightCrop($line-height) {
+  &::before {
+    display: block;
+    width: 0;
+    height: 0;
+    margin-top: calc((1 - #{$line-height}) * 0.5em);
+    content: '';
+  }
+
+  &::after {
+    display: block;
+    width: 0;
+    height: 0;
+    margin-bottom: calc((1 - #{$line-height}) * 0.5em);
+    content: '';
+  }
+}
+
+@mixin jaStringBreakControl() {
+  span:not([class]) {
+    display: inline-block;
+  }
+
+  span.t-jaStringBr-sp {
+    display: inline-block;
+
+    @include media() {
+      display: inline;
+    }
+  }
+
+  span.t-jaStringBr-pc {
+    @include media() {
+      display: inline-block;
+    }
+  }
+}
+
+@mixin sectionSideBorders($sideMargin: 'default', $height: 'default') {
+  @if $sideMargin == 'default' {
+    $sideMargin: calc((100% - fluidMaxSize(1200)) / 2);
+  }
+
+  @if $height == 'last' {
+    $height: calc(100% + rem(160));
+  } @else {
+    $height: 100%;
+  }
+
+  position: relative;
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    display: block;
+    content: '';
+    width: 1px;
+    height: $height;
+    background-color: var(--color-side-border);
+  }
+
+  &::before {
+    left: $sideMargin;
+  }
+
+  &::after {
+    right: $sideMargin;
+  }
+}

@@ -1,0 +1,12 @@
+$breakpoint-min: (
+  'sm': 'print, screen and (min-width: 480px)',
+  'md': 'print, screen and (min-width: 600px)',
+  'lg': 'print, screen and (min-width: 960px)',
+  'xl': 'print, screen and (min-width: 1280px)',
+);
+
+@mixin media($breakpoint: lg) {
+  @media #{map-get($breakpoint-min, $breakpoint)} {
+    @content;
+  }
+}

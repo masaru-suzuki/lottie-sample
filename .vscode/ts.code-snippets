@@ -1,0 +1,14 @@
+{
+  "JS Docs": {
+    "prefix": "doc",
+    "body": [
+      "/**",
+      "* $1",
+      "* @module $2",
+      "* @param {$3} $4 - $5",
+      "* @return {$6} - [$7]という形式で戻る。",
+      "*/"
+    ],
+    "description": "jsDoc用スニペット"
+  }
+}

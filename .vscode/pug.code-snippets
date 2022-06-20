@@ -1,0 +1,44 @@
+{
+  "mixin - Local Navigation": {
+    "prefix": "localNavigation",
+    "body": [
+      "+localNavigation([",
+      "{",
+      "  heading: \"$0\",",
+      "  path: \"\"",
+      "},",
+      "])"
+    ],
+    "description": "pug mixin \"localNavigation\""
+  },
+  "mixin - Page Header": {
+    "prefix": "pageHeader",
+    "body": [
+      "+pageHeader({",
+      "    title: {",
+      "      ja: \"$0\",",
+      "      en: \"\"",
+      "    },",
+      "    tag: \"\",",
+      "    image: {",
+      "      path:  \"\",",
+      "      alt: \"\"",
+      "    },",
+      "    features: [\"\"]",
+      "})"
+    ],
+    "description": "pug mixin \"localNavigation\""
+  },
+  "mixin - Simple Page Header": {
+    "prefix": "simplePageHeader",
+    "body": [
+      "+pageHeader({",
+      "    title: {",
+      "      ja: \"$0\",",
+      "      en: \"\"",
+      "    },",
+      "})"
+    ],
+    "description": "pug mixin \"localNavigation\""
+  }
+}

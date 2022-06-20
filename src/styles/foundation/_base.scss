@@ -1,0 +1,44 @@
+@use './color' as *;
+@use './layout' as *;
+@use './font' as *;
+@use './media' as *;
+@use './mixin' as *;
+
+// ========================================
+// Base
+// ========================================
+
+body {
+  font-family: var(--font-gothic);
+  font-feature-settings: 'pkna';
+  font-size: rem(15);
+  line-height: 2;
+  letter-spacing: 0.03em;
+  color: var(--color-black);
+
+  &::after {
+    display: block;
+    content: '';
+    height: var(--conversion-height-sp);
+
+    @include media() {
+      display: none;
+    }
+  }
+
+  @include media() {
+    font-size: rem(16);
+  }
+}
+
+a {
+  color: var(--color-main);
+}
+
+pre {
+  font-family: inherit;
+}
+
+[lang='en'] {
+  font-family: var(--font-en-decoration);
+}

@@ -1,0 +1,27 @@
+{
+  "responsive sm-up": {
+    "prefix": "smu",
+    "body": ["@include media('sm') {$1", "}"],
+    "description": "メディアクエリのscss mixinの使用"
+  },
+  "responsive mq-up": {
+    "prefix": "mdu",
+    "body": ["@include media('md') {$1", "}"],
+    "description": "メディアクエリのscss mixinの使用"
+  },
+  "responsive lg-up": {
+    "prefix": "lgu",
+    "body": ["@include media('lg') {$1", "}"],
+    "description": "メディアクエリのscss mixinの使用"
+  },
+  "font-size": {
+    "prefix": "fz",
+    "body": ["font-size:rem($1);"],
+    "description": "font-sizeのmixin"
+  },
+  "comment": {
+    "prefix": "com",
+    "body": ["/* $1 */"],
+    "description": "コメント"
+  }
+}

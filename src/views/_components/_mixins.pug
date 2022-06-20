@@ -1,0 +1,10 @@
+mixin crumbs(data = [])
+  unless data == ''
+    .l-crumbsWrap
+      ul.l-crumbs
+        li: a.t-ttU(href="/") Top
+        each crumb in data
+          if crumb.path
+            li: a(href=crumb.path) !{crumb.label}
+          else
+            li: span !{crumb.label}

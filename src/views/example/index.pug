@@ -1,0 +1,18 @@
+extend /views/_layouts/_default
+
+append variable
+    - page.title = "example｜" + site.title;
+    - page.description = "";
+    - page.keywords = "";
+    - page.appId = 'Example';
+    - page.dir = "/example/";
+    - page.ogimage = "/assets/images/ogp.png";
+    -
+        page.crumbs = [
+            {
+                label: 'example',
+            }
+        ];
+
+block main
+  p example
