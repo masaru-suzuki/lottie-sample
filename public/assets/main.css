@@ -1,3 +1,10 @@
+@charset "UTF-8";
+/**
+* 最小のサイズを渡すと、clampを返す関数
+* 推奨値と最大値を設定することもできる
+* 推奨値や最大値が設定されたときには、そちらが優先される
+* 最大値が設定されていた場合、推奨値は最大値に合わせる
+*/
 /*========================================*/
 /*  Color
 /*========================================*/
@@ -325,7 +332,7 @@ pre {
     height: auto;
   }
 }
-@media print, screen and (min-width: 960px) {
+@media print, screen and (min-width: 960px){
   .contact_header {
     -ms-grid-row: 1;
     -ms-grid-column: 1;
@@ -464,7 +471,7 @@ pre {
     border-top: 1px solid var(--color-border);
   }
 }
-@media print, screen and (min-width: 600px) {
+@media print, screen and (min-width: 600px){
   .footerGrid_item:nth-child(1) {
     -ms-grid-row: 1;
     -ms-grid-column: 1;

@@ -2,12 +2,37 @@
 @use './media' as *;
 
 // --------------------
-// Function
+// Defined
+// --------------------
+$DEFAULT_FONT_SIZE: 16;
+$BREAKPOINT_TABLET: 768;
+$BREAKPOINT_PC: 1366;
+
+// --------------------
+// Utility Functions
 // --------------------
 
 @function rem($px) {
   @return math.div($px, 16) * 1rem;
 }
+
+@function calcPercent($numerator, $denominator) {
+  @return math.div($numerator, $denominator) * 100;
+}
+
+@function calcVw($numerator, $denominator) {
+  @return math.div($numerator, $denomi警告 nator) * 100vw;
+}
+
+// 小数点3桁にする
+// ex) 123.456789 => 123.457
+@function roundNumber($num) {
+  @return math.div(round($num * 1000), 1000);
+}
+
+// --------------------
+// Functions
+// --------------------
 
 @function vw($px, $vw: 1280) {
   @return math.div($px, $vw) * 100vw;
@@ -22,42 +47,71 @@
 }
 
 @function stuffHalfLineHeight($fz, $lh) {
-  // @return math.div(($fz * $lh - $fz), 2);
   @return rem(math.div(($fz * $lh - $fz), 2) * -1);
 }
 
-// --------------------
-// Mixin
-// --------------------
+/**
+* 最小のサイズを渡すと、clampを返す関数
+* 推奨値と最大値を設定することもできる
+* 推奨値や最大値が設定されたときには、そちらが優先される
+* 最大値が設定されていた場合、推奨値は最大値に合わせる
+*/
+@function clamp_vw($min, $middle: 0, $max: 0) {
+  // 最小値から滑らかにサイズが上がるように計算されたvw
+  $calculated_middle_fz_for_min: roundNumber(calcPercent($min, $BREAKPOINT_TABLET));
 
-@mixin scrollMarginTop_normal() {
-  scroll-margin-top: calc(var(--header-height-sp) + 2rem);
+  // 最大値に滑らかに移行するように計算されたvw
+  $calculated_middle_fz_for_max: roundNumber(calcPercent($max, $BREAKPOINT_PC));
 
-  @include media() {
-    scroll-margin-top: calc(var(--header-height-pc-tight) - 3rem);
+  // tabletサイズの時に計算された推奨値
+  $calculated_middle_fz_for_middle: roundNumber(calcPercent($middle, $BREAKPOINT_TABLET));
+
+  // $minがPC幅になったときのサイズを計算
+  $calculated_max_fz: round($BREAKPOINT_PC * math.div($calculated_middle_fz_for_min, 100));
+
+  /**
+  最小値
+  */
+  $min_size: rem($min);
+
+  /**
+  * 推奨値
+  * 推奨値が指定されていなかったら、最小値から算出する
+  */
+  $middle_fz: $calculated_middle_fz_for_min;
+  @if ($middle != 0) {
+    $middle_fz: $calculated_middle_fz_for_middle;
+  } @else {
+    @if ($max != 0) {
+      $middle_fz: $calculated_middle_fz_for_max;
+    }
   }
+
+  /**
+  * 最大値
+  * 最大値が指定されていなかったら最小値から算出する
+  * 最大値が設定されていない、かつ、推奨値が設定されている場合は、推奨値を最大値とする
+  */
+  $max_fz: rem($calculated_max_fz);
+  @if ($max != 0) {
+    $max_fz: rem($max);
+  } @else {
+    @if ($middle != 0) {
+      $max_fz: rem($middle);
+    }
+  }
+
+  @return clamp(#{$min_size}, #{$middle_fz}vw, #{$max_fz});
 }
 
-@mixin scrollMarginTop_tight() {
-  scroll-margin-top: var(--header-height-sp);
-
-  @include media() {
-    scroll-margin-top: var(--header-height-pc-tight);
-  }
-}
-
-@mixin scrollMarginTop_wide() {
-  scroll-margin-top: var(--header-height-sp);
-
-  @include media() {
-    scroll-margin-top: calc(var(--header-height-pc-tight) + 3.5rem);
-  }
-}
+// --------------------------
+// Animations
+// --------------------------
 
 // Button Animation
 @mixin bgSlideAnimation() {
   display: block;
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
@@ -73,7 +127,7 @@
 
 @mixin lineAnimation() {
   position: absolute;
-  content: '';
+  content: "";
   bottom: 0;
   left: 0;
   width: 0;
@@ -84,6 +138,25 @@
 
 @mixin lineAnimation-hover() {
   width: 100%;
+}
+
+
+
+// --------------------------
+// SNS Icon
+// --------------------------
+
+// SNSのアイコンを中央よせする
+// ex) $size = 30
+@mixin circleIcon($size) {
+  display: grid;
+  place-items: center;
+  width: rem($size);
+  aspect-ratio: 1 / 1;
+  clip-path: circle(50%);
+  @supports not (aspect-ratio: 1/ 1) {
+    height: $size;
+  }
 }
 
 @mixin iconExpandTrue() {
@@ -97,28 +170,26 @@
 @mixin iconBlank() {
   &::after {
     display: inline-block;
-    content: '';
+    content: "";
     width: rem(16);
     height: rem(16);
-    background: url('/assets2022/images/icon_blank.svg') no-repeat left top /
-      100% 100%;
+    background: url("/assets2022/images/icon_blank.svg") no-repeat left top / 100% 100%;
   }
 }
 
 @mixin iconZoom() {
   &::after {
     display: block;
-    content: '';
+    content: "";
     width: 32px;
     height: 32px;
-    background: var(--color-main) url('/assets/images/icon_zoom.svg') no-repeat
-      7px 7px / 19px 19px;
+    background: var(--color-main) url("/assets/images/icon_zoom.svg") no-repeat 7px 7px / 19px 19px;
     color: #fff;
   }
 }
 
-@mixin hoverAction($name: 'transparent') {
-  @if $name == 'transparent' {
+@mixin hoverAction($name: "transparent") {
+  @if $name == "transparent" {
     transition: opacity 0.2s ease;
 
     &:hover {
@@ -126,7 +197,7 @@
     }
   }
 
-  @if $name == 'fill-in' {
+  @if $name == "fill-in" {
     transition: opacity 0.2s ease;
 
     &:hover {
@@ -138,18 +209,14 @@
 @mixin headingLeftBorder($line-height, $width: 4px) {
   &::before {
     display: block;
-    content: '';
+    content: "";
     position: absolute;
     top: calc(50%);
     left: 0;
-    height: calc(
-      100% + ((1 - #{$line-height}) * 1em) + rem(6)
-    ); //+6は補正：文字高ママでいいなら不要
+    height: calc(100% + ((1 - #{$line-height}) * 1em) + rem(6)); //+6は補正：文字高ママでいいなら不要
     width: $width;
     background-color: var(--color-main);
-    transform: translateY(
-      calc(-50% + rem(1))
-    ); //+1はNoto Sans用の補正（やや下ズレするため）
+    transform: translateY(calc(-50% + rem(1))); //+1はNoto Sans用の補正（やや下ズレするため）
   }
 }
 
@@ -159,7 +226,7 @@
     width: 0;
     height: 0;
     margin-top: calc((1 - #{$line-height}) * 0.5em);
-    content: '';
+    content: "";
   }
 
   &::after {
@@ -167,7 +234,7 @@
     width: 0;
     height: 0;
     margin-bottom: calc((1 - #{$line-height}) * 0.5em);
-    content: '';
+    content: "";
   }
 }
 
@@ -191,12 +258,12 @@
   }
 }
 
-@mixin sectionSideBorders($sideMargin: 'default', $height: 'default') {
-  @if $sideMargin == 'default' {
+@mixin sectionSideBorders($sideMargin: "default", $height: "default") {
+  @if $sideMargin == "default" {
     $sideMargin: calc((100% - fluidMaxSize(1200)) / 2);
   }
 
-  @if $height == 'last' {
+  @if $height == "last" {
     $height: calc(100% + rem(160));
   } @else {
     $height: 100%;
@@ -209,7 +276,7 @@
     position: absolute;
     top: 0;
     display: block;
-    content: '';
+    content: "";
     width: 1px;
     height: $height;
     background-color: var(--color-side-border);
@@ -223,3 +290,32 @@
     right: $sideMargin;
   }
 }
+
+// --------------------------
+// アクセシビリティ
+// --------------------------
+// Bootstrap ver
+@mixin sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Apple ver
+// @mixin sr-only {
+//   position: absolute;
+//   width: 1px;
+//   height: 1px;
+//   padding: 0;
+//   overflow: hidden;
+//   clip: rect(1px, 1px, 1px, 1px);
+//   -webkit-clip-path: inset(0px 0px 99.9% 99.9%);
+//   clip-path: inset(0px 0px 99.9% 99.9%);
+//   border: 0;
+// }
