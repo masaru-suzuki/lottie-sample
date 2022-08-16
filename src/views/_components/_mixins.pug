@@ -8,3 +8,44 @@ mixin crumbs(data = [])
             li: a(href=crumb.path) !{crumb.label}
           else
             li: span !{crumb.label}
+
+
+//- webP対応画像
+//- Sample
+    +image({
+    pc:{
+      src: "/example/dummy-pc.png",
+      width: "800",
+      height: "400"
+    },
+    sp:{
+      src: "/example/dummy.png",
+      width: "375",
+      height: "600"
+    },
+    alt: ""
+  })
+
+mixin image(data)
+  figure
+    picture
+      if data.sp
+        source(srcset=`${image_path}${data.pc.src}.webp`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height, type="image/webp")
+        source(srcset=image_path + data.pc.src media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
+        source(srcset=image_path + data.sp.src + ".webp"  width=data.sp.width, height=data.sp.height, type="image/webp")
+        img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, loading="lazy", alt=data.alt)
+      else
+        source(srcset=`${image_path}${data.pc.src}.webp`, width=data.pc.width, height=data.pc.height, type="image/webp")
+        source(srcset=image_path + data.pc.src, width=data.pc.width, height=data.pc.height)
+        img(src=image_path + data.pc.src, width=data.pc.width, height=data.pc.height, loading="lazy", alt=data.alt)
+
+
+//- 名前のルールが決まっている場合(jpg) => やりすぎ感がある
+mixin responsiveJpgImage(data)
+  figure
+    picture
+      if data.sp
+        source(srcset=`${image_path}${data.src}-pc.jpg.webp`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height, type="image/webp")
+        source(srcset=`${image_path}${data.src}-pc.jpg`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
+        source(srcset=`${image_path}${data.src}.jpg.webp`, width=data.sp.width, height=data.sp.height, type="image/webp")
+        img(src=`${image_path}${data.src}.jpg`, width=data.sp.width, height=data.sp.height, loading="lazy", alt=data.alt)

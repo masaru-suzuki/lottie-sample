@@ -1,4 +1,37 @@
 {
+  "mixin - image": {
+    "prefix": "imgpc",
+    "body": [
+      "+image({",
+      "  pc:{",
+      "    src: \"/$1\",",
+      "    width: \"$2\",",
+      "    height: \"$3\"",
+      "  },",
+      "  alt: \"$4\"",
+      "})"
+    ],
+    "description": "画像が1ソースのときのmixin"
+  },
+  "mixin - image responsive": {
+    "prefix": "imgsp",
+    "body": [
+      "+image({",
+      "  pc:{",
+      "    src: \"/$1\",",
+      "    width: \"$2\",",
+      "    height: \"$3\"",
+      "  },",
+      "  sp:{",
+      "    src: \"/$4\",",
+      "    width: \"$5\",",
+      "    height: \"$6\"",
+      "  },",
+      "  alt: \"$7\"",
+      "})"
+    ],
+    "description": "PCとSPで画像が異なるときのmixin"
+  },
   "mixin - Local Navigation": {
     "prefix": "localNavigation",
     "body": [

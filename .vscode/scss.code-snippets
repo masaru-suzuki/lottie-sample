@@ -14,14 +14,130 @@
     "body": ["@include media('lg') {$1", "}"],
     "description": "メディアクエリのscss mixinの使用"
   },
+  "rem": {
+    "prefix": "rem",
+    "body": ["rem($1)"],
+    "description": "remの使用"
+  },
   "font-size": {
     "prefix": "fz",
     "body": ["font-size:rem($1);"],
     "description": "font-sizeのmixin"
   },
+  "font-size clamp": {
+    "prefix": "fzc",
+    "body": ["font-size: clamp_vw(\\$min: $1, \\$max: $2);"],
+    "description": "font-sizeのmixin clampバージョン"
+  },
+  "custom property color": {
+    "prefix": "varc",
+    "body": ["var(--color-$1)"],
+    "description": "カスタムプロパティのカラーを使用"
+  },
+  "clamp view width": {
+    "prefix": "cla",
+    "body": ["clamp_vw(\\$min: $1, \\$middle: $2, \\$max: $3)"],
+    "description": "clamp"
+  },
+  "calculate rounded percentage": {
+    "prefix": "rou",
+    "body": ["roundPercent(\\$numerator: $1,\\$denominator: $2)"],
+    "description": "roundPescntのmixin"
+  },
+  "calculate rounded line-height": {
+    "prefix": "lh",
+    "body": ["line-height: calcLineHeight(\\$height: $1,\\$fontSize: $2);"],
+    "description": "calcLineHeightのmixin"
+  },
   "comment": {
     "prefix": "com",
     "body": ["/* $1 */"],
     "description": "コメント"
-  }
+  },
+  "not supports": {
+    "prefix": "notsupport",
+    "body": "@supports not ($1: $2) {$3}",
+    "description": "サポート外のプロパティ設定用"
+  },
+  //-------------------------
+  // utility
+  // ------------------------
+  "before": {
+    "prefix": "bfr",
+    "body": ["&::before {", "\tcontent: '';", "\t$1", "}"],
+    "description": "create before class"
+  },
+  "after": {
+    "prefix": "aft",
+    "body": ["&::after {", "\tcontent: '';", "\t$1", "}"],
+    "description": "create after class"
+  },
+  "boxShadow": {
+    "prefix": "shadow",
+    "body": ["box-shadow: ${1:2px} ${2:2px} ${3:5px} ${4:5px} ${5:#222};"],
+    "description": "set box-shadow"
+  },
+  "backGroundImage": {
+    "prefix": "bgi",
+    "body": ["background: url($1) no-repeat center center/cover;"],
+    "description": "set background-image"
+  },
+  "absolute-Center": {
+    "prefix": "abso-c",
+    "body": [
+      "position: absolute;",
+      "top: 50%;",
+      "left: 50%;",
+      "transform: translate(-50%, -50%);"
+    ]
+  },
+  "absolute-VerticalCenter": {
+    "prefix": "abso-vc",
+    "body": [
+      "position: absolute;",
+      "top: 50%;",
+      "left: $1;",
+      "transform: translateY(-50%);"
+    ]
+  },
+  "absolute-HorizontalCenter": {
+    "prefix": "abso-hc",
+    "body": [
+      "position: absolute;",
+      "top: $1;",
+      "left: 50%;",
+      "transform: translateX(-50%);"
+    ]
+  },
+  "before-image": {
+    "prefix": "beforeimg",
+    "body": [
+      "&::before {",
+      "position: absolute;",
+      "top: $1;",
+      "left: $2;",
+      "transform: translate($3)",
+      "content: \"\";",
+      "width: $4;",
+      "height: $5;",
+      "background-image: url($6) no-repeat center center/cover;",
+      "}"
+    ],
+    "description": "before要素の使用"
+  },
+  "fontawesome": {
+    "prefix": "fontawesome",
+    "body": [
+      "&::before {",
+      "position: absolute;",
+      "top: 30px;",
+      " left: 30px;",
+      "content: \"\f054\";",
+      "font-family: \"Font Awesome 5 Free\";",
+      "font-weight: 900;",
+      "font-size: 6px;",
+      "}"
+    ],
+    "description": "before要素の使用"
+  },
 }

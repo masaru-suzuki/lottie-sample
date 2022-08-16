@@ -7,22 +7,42 @@
 $DEFAULT_FONT_SIZE: 16;
 $BREAKPOINT_TABLET: 768;
 $BREAKPOINT_PC: 1366;
+$CONTENTS_WIDTH: 1024;
 
 // --------------------
 // Utility Functions
 // --------------------
 
+/*
+* pxをremに変換する
+* $px[Number]: px [ex: 16]
+* retune[String]: rem変換した単位 [ex: 1rem]
+*/
 @function rem($px) {
   @return math.div($px, 16) * 1rem;
 }
 
+/*
+* pxをvwに変換する
+* デフォルトはコンテンツ幅に対してのvw変換
+* $px[Number]: px [ex: 683]
+* $vw[Number]: コンテンツ幅 [ex: 1366]
+* retune[String]: vw変換した単位 [ex: 50vw]
+*/
+@function vw($px, $vw: $CONTENTS_WIDTH) {
+  @return math.div($px, $vw) * 100vw;
+}
+
+/*
+* 100分率に変換する
+* $numerator[Number]: 分子 [ex: 300]
+* $denominator[Number]: 分母 [ex: 1024]
+* retune[Number]:%なしの数字 [ex: 29.296875]
+*/
 @function calcPercent($numerator, $denominator) {
   @return math.div($numerator, $denominator) * 100;
 }
 
-@function calcVw($numerator, $denominator) {
-  @return math.div($numerator, $denomi警告 nator) * 100vw;
-}
 
 // 小数点3桁にする
 // ex) 123.456789 => 123.457
@@ -34,27 +54,14 @@ $BREAKPOINT_PC: 1366;
 // Functions
 // --------------------
 
-@function vw($px, $vw: 1280) {
-  @return math.div($px, $vw) * 100vw;
-}
-
-@function fluidMaxSize($px, $vw: 1280) {
-  @return min(vw($px, $vw), rem($px));
-}
-
-@function fluidMinSize($px, $vw: 1280) {
-  @return max(vw($px, $vw), rem($px));
-}
-
-@function stuffHalfLineHeight($fz, $lh) {
-  @return rem(math.div(($fz * $lh - $fz), 2) * -1);
-}
 
 /**
+* 0 < $min < $middle < $max
 * 最小のサイズを渡すと、clampを返す関数
 * 推奨値と最大値を設定することもできる
 * 推奨値や最大値が設定されたときには、そちらが優先される
 * 最大値が設定されていた場合、推奨値は最大値に合わせる
+* 基本的に$middleは0
 */
 @function clamp_vw($min, $middle: 0, $max: 0) {
   // 最小値から滑らかにサイズが上がるように計算されたvw
