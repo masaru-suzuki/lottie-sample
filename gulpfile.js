@@ -1,7 +1,7 @@
 /**
  * import
  */
-const { src, dest, lastRun, parallel, watch } = require('gulp');
+const { src, dest, lastRun, parallel, watch, series } = require('gulp');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const browserSync = require('browser-sync');
@@ -9,6 +9,7 @@ const fs = require('fs');
 const data = require('gulp-data');
 const pug = require('gulp-pug-3');
 const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const autoprefixer = require('autoprefixer');
@@ -18,6 +19,8 @@ const webpackStream = require('webpack-stream');
 const imagemin = require('gulp-imagemin');
 const gulpWebp = require('gulp-webp');
 const connectSSI = require('connect-ssi');
+const gulpIf = require('gulp-if');
+const del = require('del');
 
 /**
  * initial settings
@@ -41,8 +44,8 @@ const srcPath = {
 
 const destPath = {
   html: baseDir,
-  css: `${baseDir}assets`,
-  js: `${baseDir}assets`,
+  css: `${baseDir}assets/css`,
+  js: `${baseDir}assets/js`,
   img: `${baseDir}assets/images`,
 };
 
@@ -62,6 +65,8 @@ const watchPath = {
     `${baseDir}**/*.svg`,
   ],
 };
+
+// const deleteFiles = `${baseDir}/**/*`
 
 /**
  * compile html
@@ -102,6 +107,7 @@ const postCssPlugins = [
 
 const css = () => {
   return src(srcPath.css)
+    .pipe(sourcemaps.init())
     .pipe(
       plumber({
         errorHandler: notify.onError('Error: <%= error.message %>'),
@@ -109,6 +115,7 @@ const css = () => {
     )
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(postCssPlugins))
+    .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.write(`./maps/`)))
     .pipe(dest(destPath.css));
 };
 
@@ -165,6 +172,13 @@ const webp = () => {
 };
 
 /**
+ * clean
+ */
+const clean = () => {
+    return del(['public/*/']);
+};
+
+/**
  * browser sync
  */
 const bs = (done) => {
@@ -196,8 +210,10 @@ exports.css = css;
 exports.js = js;
 exports.img = img;
 exports.webp = webp;
+exports.clean = clean;
 
-exports.build = parallel([html, css, js, img, webp]);
+// exports.build = parallel([html, css, js, img, webp]);
+exports.build = series(clean, html, css, js, img, webp);
 // exports.build = parallel([html, css, js]);
 
 exports.default = parallel([html, css, js, img, webp, bs], () => {
