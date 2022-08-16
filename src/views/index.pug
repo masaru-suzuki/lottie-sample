@@ -15,4 +15,31 @@ block preload
   //- link(href='/assets/images/home/bg_keyvisual_03_pc.jpg' as='image' rel='preload' media='screen and (max-width: 600px)')
 
 block main
+  +image({
+    pc:{
+      src: "/example/dummy-pc.jpg",
+      width: "800",
+      height: "400"
+    },
+    sp:{
+      src: "/example/dummy.jpg",
+      width: "375",
+      height: "600"
+    },
+    alt: ""
+  })
+
+  //- 名前のルールが決まっている場合
+  +responsiveJpgImage({
+    src: "/example/dummy",
+    sp:{
+      width: "375",
+      height: "660",
+    },
+    pc: {
+      width: "1920",
+      hight: "1280"
+    },
+    alt: ""
+  })
   p index

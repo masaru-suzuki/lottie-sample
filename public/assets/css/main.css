@@ -21,17 +21,39 @@
   --conversion-height-sp: 3.75rem;
 }
 
+/*
+* pxをremに変換する
+* $px[Number]: px [ex: 16]
+* retune[String]: rem変換した単位 [ex: 1rem]
+*/
+/*
+* pxをvwに変換する
+* デフォルトはコンテンツ幅に対してのvw変換
+* $px[Number]: px [ex: 683]
+* $vw[Number]: コンテンツ幅 [ex: 1366]
+* retune[String]: vw変換した単位 [ex: 50vw]
+*/
+/*
+* 100分率に変換する
+* $numerator[Number]: 分子 [ex: 300]
+* $denominator[Number]: 分母 [ex: 1024]
+* retune[Number]:%なしの数字 [ex: 29.296875]
+*/
 /**
+* 0 < $min < $middle < $max
 * 最小のサイズを渡すと、clampを返す関数
 * 推奨値と最大値を設定することもできる
 * 推奨値や最大値が設定されたときには、そちらが優先される
 * 最大値が設定されていた場合、推奨値は最大値に合わせる
+* 基本的に$middleは0
 */
 body {
   font-feature-settings: "pkna";
+  margin: unset;
+  margin-top: var(--header-height-sp);
   color: var(--color-black);
   font-size: 0.9375rem;
-  line-height: 2;
+  line-height: 1.5;
   font-family: var(--font-gothic);
   letter-spacing: 0.03em;
 }
@@ -47,6 +69,7 @@ body::after {
 }
 @media print, screen and (min-width: 960px) {
   body {
+    margin-top: var(--header-height-pc);
     font-size: 1rem;
   }
 }
@@ -163,148 +186,6 @@ button {
   }
 }
 
-.header_logo {
-  flex-shrink: 0;
-  z-index: 1;
-  transition: all 0.2s ease;
-  width: 8.375rem;
-}
-@media print, screen and (min-width: 960px) {
-  .header_logo {
-    width: clamp(9.5rem, 15.625vw, 12.5rem);
-  }
-}
-@media print, screen and (min-width: 960px) {
-  .header.-tight .header_logo {
-    width: 9.5rem;
-  }
-}
-.header_logo img {
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-.header_subNavigation {
-  margin-top: 1.125rem;
-  font-weight: 500;
-  font-size: 0.8125rem;
-}
-@media print, screen and (min-width: 960px) {
-  .header_subNavigation {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0;
-    font-size: 0.6875rem;
-    font-size: clamp(0.625rem, 0.9375vw, 0.75rem);
-  }
-}
-@media print, screen and (min-width: 960px) {
-  .header_subNavigation li:not(:first-child) {
-    padding-left: clamp(0.625rem, 1.5625vw, 1.25rem);
-  }
-}
-@media print, screen and (min-width: 960px) {
-  .header_subNavigation li:not(:last-child) {
-    position: relative;
-    padding-right: clamp(0.625rem, 1.5625vw, 1.25rem);
-  }
-  .header_subNavigation li:not(:last-child)::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background-color: var(--color-border);
-    width: 1px;
-    height: 0.625rem;
-    content: "";
-  }
-}
-.header_subNavigation a {
-  display: inline-block;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-  color: inherit;
-}
-.header_subNavigation + .c-button {
-  margin-top: 1.5625rem;
-  font-size: 0.9375rem;
-}
-@media print, screen and (min-width: 960px) {
-  .header_subNavigation + .c-button {
-    margin-top: 0;
-    padding: 0rem 16;
-    width: 17.5rem;
-    min-height: 3rem;
-    font-size: 0.75rem;
-  }
-  .header_subNavigation + .c-button::before {
-    content: none;
-  }
-  .header_subNavigation + .c-button > span:first-child::before {
-    @includelineAnimation ();
-  }
-  .header_subNavigation + .c-button .c-icon-arrow {
-    transition: 0.2s ease;
-  }
-  .header_subNavigation + .c-button:hover > span:first-child::before {
-    width: 100%;
-  }
-  .header_subNavigation + .c-button:hover .c-icon-arrow {
-    transform: translateX(0.25rem);
-  }
-}
-
-@media print, screen and (min-width: 960px) {
-  .header_panel {
-    display: flex;
-    position: relative;
-    gap: 5.625rem;
-    margin-right: auto;
-    margin-left: auto;
-    padding-top: 2.625rem;
-    padding-bottom: 2.625rem;
-    width: min(93.75vw, 75rem);
-  }
-}
-.header_panel .c-decoration-fourCorners {
-  display: none;
-}
-@media print, screen and (min-width: 960px) {
-  .header_panel .c-decoration-fourCorners {
-    display: block;
-  }
-}
-
-.header_panel_headingWrap {
-  display: none;
-}
-@media print, screen and (min-width: 960px) {
-  .header_panel_headingWrap {
-    display: block;
-    flex-basis: 24.25rem;
-  }
-}
-@media print, screen and (min-width: 960px) {
-  .header_panel_headingWrap .c-button {
-    width: 100%;
-    min-height: 4rem;
-    font-size: 0.8125rem;
-  }
-}
-
-.header_panel_heading {
-  font-weight: 500;
-  font-size: 1.25rem;
-}
-.header_panel_heading[lang=en] {
-  font-weight: 600;
-  font-size: 0.75rem;
-}
-.header_panel_heading + .c-button {
-  margin-top: 2.25rem;
-}
-
 /* ===========================================
 *  Layouts
 *  prefix l-
@@ -345,23 +226,6 @@ button {
 @media print, screen and (min-width: 960px) {
   .u-hiddenPc {
     display: none;
-  }
-}
-
-.u-jaStringBreakControl span:not([class]) {
-  display: inline-block;
-}
-.u-jaStringBreakControl span.t-jaStringBr-sp {
-  display: inline-block;
-}
-@media print, screen and (min-width: 960px) {
-  .u-jaStringBreakControl span.t-jaStringBr-sp {
-    display: inline;
-  }
-}
-@media print, screen and (min-width: 960px) {
-  .u-jaStringBreakControl span.t-jaStringBr-pc {
-    display: inline-block;
   }
 }
 

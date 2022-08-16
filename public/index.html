@@ -21,6 +21,20 @@
   <body data-app="Home">
     <!--#include virtual="/includes/header.html"-->
     <main class="main" id="pageTop">
+      <figure>
+        <picture>
+          <source srcset="/assets/images/example/dummy-pc.jpg.webp" media="(min-width: 768px)" width="800" height="400" type="image/webp"/>
+          <source srcset="/assets/images/example/dummy-pc.jpg" media="(min-width: 768px)" width="800" height="400"/>
+          <source srcset="/assets/images/example/dummy.jpg.webp" width="375" height="600" type="image/webp"/><img src="/assets/images/example/dummy.jpg" width="375" height="600" loading="lazy" alt=""/>
+        </picture>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="/assets/images/example/dummy-pc.jpg.webp" media="(min-width: 768px)" width="1920" type="image/webp"/>
+          <source srcset="/assets/images/example/dummy-pc.jpg" media="(min-width: 768px)" width="1920"/>
+          <source srcset="/assets/images/example/dummy.jpg.webp" width="375" height="660" type="image/webp"/><img src="/assets/images/example/dummy.jpg" width="375" height="660" loading="lazy" alt=""/>
+        </picture>
+      </figure>
       <p>index</p>
     </main>
     <!--#include virtual="/includes/footer.html"-->
