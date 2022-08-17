@@ -66,7 +66,6 @@ const watchPath = {
   ],
 };
 
-// const deleteFiles = `${baseDir}/**/*`
 
 /**
  * compile html
@@ -214,10 +213,8 @@ exports.clean = clean;
 
 // exports.build = parallel([html, css, js, img, webp]);
 exports.build = series(clean, html, css, js, img, webp);
-// exports.build = parallel([html, css, js]);
 
 exports.default = parallel([html, css, js, img, webp, bs], () => {
-  // exports.default = parallel([html, css, js, bs], () => {
   watch(watchPath.html, html);
   watch(watchPath.css, css);
   watch(watchPath.js, js);
