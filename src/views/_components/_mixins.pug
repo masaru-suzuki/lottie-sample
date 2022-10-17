@@ -9,6 +9,26 @@ mixin crumbs(data = [])
           else
             li: span !{crumb.label}
 
+//- 通常画像
+//- Sample
+  +image({
+    src: "/example/dummy-pc.png",
+    width: "800",
+    height: "400"
+    alt: ""
+  })
+
+//- mixin image(data)
+//-   img(src=data.src, width=data.width, height=data.height, loading="lazy", decoding="async", alt=data.alt)
+
+
+//- レスポンシブ画像
+//- mixin image(data)
+//-   figure
+//-     picture
+//-       source(srcset=image_path + data.pc.src media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
+//-       img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, loading="lazy", alt=data.alt)
+
 
 //- webP対応画像
 //- Sample
@@ -40,7 +60,19 @@ mixin image(data)
         img(src=image_path + data.pc.src, width=data.pc.width, height=data.pc.height, loading="lazy", alt=data.alt)
 
 
-//- 名前のルールが決まっている場合(jpg) => やりすぎ感がある...
+//- 名前のルールが決まっている場合(jpg)
+  +responsiveJpgImage({
+    src: "/example/dummy",
+    sp:{
+      width: "375",
+      height: "660",
+    },
+    pc: {
+      width: "1920",
+      hight: "1280"
+    },
+    alt: ""
+  })
 mixin responsiveJpgImage(data)
   figure
     picture

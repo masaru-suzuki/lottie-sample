@@ -34,10 +34,21 @@
 * retune[String]: vw変換した単位 [ex: 50vw]
 */
 /*
-* 100分率に変換する
+* pxをvwに変換する
+* SPデバイス専用
+* retune[String]: vw変換した単位 [ex: 50vw]
+*/
+/*
+* 100分率に変換するして小数点第3位にまとめる
 * $numerator[Number]: 分子 [ex: 300]
 * $denominator[Number]: 分母 [ex: 1024]
-* retune[Number]:%なしの数字 [ex: 29.296875]
+* retune[Number]:%なしの数字 [ex: 29.296]
+*/
+/*
+* line-heightを小数点第3位に丸める
+* $height[Number]: 分子 [ex: 28]
+* $fontSize[Number]: 分母 [ex: 13]
+* retune[String]: %表記 [ex: 0.737]
 */
 /**
 * 0 < $min < $middle < $max
@@ -48,42 +59,15 @@
 * 基本的に$middleは0
 */
 body {
-  font-feature-settings: "pkna";
-  margin: unset;
-  margin-top: var(--header-height-sp);
-  color: var(--color-black);
   font-size: 0.9375rem;
   line-height: 1.5;
   font-family: var(--font-gothic);
   letter-spacing: 0.03em;
 }
-body::after {
-  display: block;
-  height: var(--conversion-height-sp);
-  content: "";
-}
-@media print, screen and (min-width: 960px) {
-  body::after {
-    display: none;
-  }
-}
 @media print, screen and (min-width: 960px) {
   body {
-    margin-top: var(--header-height-pc);
     font-size: 1rem;
   }
-}
-
-a {
-  color: var(--color-main);
-}
-
-pre {
-  font-family: inherit;
-}
-
-[lang=en] {
-  font-family: var(--font-en-decoration);
 }
 
 /* ===========================================
@@ -124,7 +108,6 @@ ul {
 
 img {
   vertical-align: bottom;
-  image-rendering: -webkit-optimize-contrast;
   max-width: 100%;
   height: auto;
 }
@@ -155,49 +138,13 @@ button {
 *  Vendor
 *  ======================================== */
 /* ===========================================
-*  Libraries
-*  ======================================== */
-.header {
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 15;
-  border-bottom: 1px solid var(--color-side-border);
-  background-color: var(--color-white);
-  padding-left: 1.25rem;
-  width: 100%;
-  height: var(--header-height-sp);
-  line-height: 1.7;
-}
-@media print, screen and (min-width: 960px) {
-  .header {
-    transition: height 0.2s ease;
-    padding-left: 2rem;
-    height: var(--header-height-pc);
-    line-height: 1.7;
-  }
-}
-@media print, screen and (min-width: 960px) {
-  .header.-tight {
-    height: var(--header-height-pc-tight);
-  }
-}
-
-/* ===========================================
 *  Layouts
 *  prefix l-
 *  ======================================== */
-/* ===========================================
-*  Modules
-*  prefix m-
-*  ======================================== */
-/* ===========================================
-*  Components
-*  prefix: c-
-*  ======================================== */
+main p {
+  font-size: clamp(1.25rem, 3.255vw, 1.875rem);
+}
+
 /* ===========================================
 *  Pages
 *  prefix p-

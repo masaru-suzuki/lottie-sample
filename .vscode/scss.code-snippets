@@ -14,6 +14,11 @@
     "body": ["@include media('lg') {$1", "}"],
     "description": "メディアクエリのscss mixinの使用"
   },
+  "responsive hover": {
+    "prefix": "hover",
+    "body": ["@include hover {$1", "}"],
+    "description": "メディアクエリのhover"
+  },
   "rem": {
     "prefix": "rem",
     "body": ["rem($1)"],
@@ -24,9 +29,64 @@
     "body": ["font-size:rem($1);"],
     "description": "font-sizeのmixin"
   },
+  "width mixin": {
+    "prefix": "w",
+    "body": ["@include width(\\$sp: $1, \\$pc: $2);"],
+    "description": "widthのmixin"
+  },
+  "height mixin": {
+    "prefix": "h",
+    "body": ["@include height(\\$sp: $1, \\$pc: $2);"],
+    "description": "heightのmixin"
+  },
+  "flex-basis mixin": {
+    "prefix": "fb",
+    "body": ["@include flex-basis(\\$sp: $1, \\$pc: $2);"],
+    "description": "flex-basisのmixin"
+  },
+  "margin-top mixin": {
+    "prefix": "mt",
+    "body": ["@include margin-top(\\$sp: $1, \\$pc: $2);"],
+    "description": "margin-topのmixin"
+  },
+  "margin-right mixin": {
+    "prefix": "mr",
+    "body": ["@include margin-right(\\$sp: $1, \\$pc: $2);"],
+    "description": "margin-rightのmixin"
+  },
+  "margin-bottom mixin": {
+    "prefix": "mb",
+    "body": ["@include margin-bottom(\\$sp: $1, \\$pc: $2);"],
+    "description": "margin-bottomのmixin"
+  },
+  "margin-left mixin": {
+    "prefix": "ml",
+    "body": ["@include margin-left(\\$sp: $1, \\$pc: $2);"],
+    "description": "margin-leftのmixin"
+  },
+  "padding-top mixin": {
+    "prefix": "pt",
+    "body": ["@include padding-top(\\$sp: $1, \\$pc: $2);"],
+    "description": "padding-topのmixin"
+  },
+  "padding-right mixin": {
+    "prefix": "pr",
+    "body": ["@include padding-right(\\$sp: $1, \\$pc: $2);"],
+    "description": "padding-rightのmixin"
+  },
+  "padding-bottom mixin": {
+    "prefix": "pb",
+    "body": ["@include padding-bottom(\\$sp: $1, \\$pc: $2);"],
+    "description": "padding-bottomのmixin"
+  },
+  "padding-left mixin": {
+    "prefix": "pl",
+    "body": ["@include padding-left(\\$sp: $1, \\$pc: $2);"],
+    "description": "padding-leftのmixin"
+  },
   "font-size clamp": {
     "prefix": "fzc",
-    "body": ["font-size: clamp_vw(\\$min: $1, \\$max: $2);"],
+    "body": ["font-size: clamp_rem(\\$min: $1, \\$max: $2);"],
     "description": "font-sizeのmixin clampバージョン"
   },
   "custom property color": {
@@ -36,7 +96,7 @@
   },
   "clamp view width": {
     "prefix": "cla",
-    "body": ["clamp_vw(\\$min: $1, \\$middle: $2, \\$max: $3)"],
+    "body": ["clamp_rem(\\$min: $1, \\$middle: $2, \\$max: $3)"],
     "description": "clamp"
   },
   "calculate rounded percentage": {

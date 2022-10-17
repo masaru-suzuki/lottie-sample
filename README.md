@@ -74,7 +74,7 @@
 - public ... 公開ファイル
 - src ... ソースファイル
   - data ... JSON ファイル
-    - site.json ... サイトの基本情報
+    - site.json ... サイトの基本情報(pugのページ情報に記載がない場合は、site.jsonの記述がメタ情報になります)
     - data.json ... 記事情報など pug でループさせる情報
   - images ... 画像ファイル
   - views ... HTML ファイル（pug ファイル）
@@ -126,12 +126,15 @@ JS は共通処理を除き、各ページごとに必要な処理のみが発�
 
 - CSS のファイル構成は **FlOCSS** がベースです。全体の構成および役割を把握するためには `main.scss` を参照してください。(#css)
 - 命名は [**MindBEMding**](https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) です。[こちらの記事](https://github.com/manabuyasuda/styleguide/blob/master/how-to-bem.md)を参考にしています。
-- &\_\_element の書き方をしないでください（検索性を高めるため）。
+- 検索性を高めるため、`&__`で省略した書き方はしないでください。
+- BEMでblockの中にblockを入れないでください。
+    - (NG例).p-form__inner__lead
 - 命名については [bootstrap](https://getbootstrap.jp/docs/5.0/components/accordion/)や[こちらの記事](https://qiita.com/manabuyasuda/items/dbb76ed36970bec95470)を参考にしています。
 - modifier はハイフン始まりのマルチクラスでつけてください。
 - 状態を表す要素については `-HogeHoge`
 - JavaScript から参照される要素については `js-hogeHoge`
-- @extend は使用しない
+- @extend は使用しないでください。繰り返しの記述を省略する必要があれば、mixinに入れて使い回してください。
+- componentやlayout, foundationディレクトリ配下のscssに変更を加える場合、ご一報ください。また、その場合はコミットを分けてください。
 - サンプルは `/src/scss/sample.scss` を参照してください。
 
 ### img タグに付与する属性
@@ -216,6 +219,3 @@ $git push heroku main
 ### 注意事項
 
 - **必ず `build` を実行** してから、コミットやプッシュを行ってください。dev と build では sourcemap まわりなどで処理に差異があります。
-- ~~デプロイは github と連携しています。`git push heroku` は **絶対に叩かないで** ください。~~
-  - ~~[Heroku の OAuth トークン流出の件](https://zenn.dev/hiroga/articles/heroku-incident-2413-checklist) により、github との連携ができなくなりました。
-  - ~~当面の間、デプロイは heroku git と連携します。push は [heroku への反映](#heroku-への反映) で示しているとおり、github（origin）と heroku（heroku）それぞれに対して行ってください。これは今後 github との連携が復活した際、大量の commit が一気に push される事態を避けるためです。~~

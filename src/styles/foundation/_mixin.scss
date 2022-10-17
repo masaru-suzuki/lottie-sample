@@ -5,8 +5,10 @@
 // Defined
 // --------------------
 $DEFAULT_FONT_SIZE: 16;
+$BREAKPOINT_SP: 375;
 $BREAKPOINT_TABLET: 768;
 $BREAKPOINT_PC: 1366;
+$MAX_DEVICE_WIDTH: 1600;
 $CONTENTS_WIDTH: 1024;
 
 // --------------------
@@ -34,13 +36,35 @@ $CONTENTS_WIDTH: 1024;
 }
 
 /*
-* 100分率に変換する
+* pxをvwに変換する
+* SPデバイス専用
+* retune[String]: vw変換した単位 [ex: 50vw]
+*/
+@function spvw($px, $vw: $SP_DEVICE_WIDTH) {
+  @return #{calcPercent($px, $vw)}vw;
+}
+
+
+/*
+* 100分率に変換するして小数点第3位にまとめる
 * $numerator[Number]: 分子 [ex: 300]
 * $denominator[Number]: 分母 [ex: 1024]
-* retune[Number]:%なしの数字 [ex: 29.296875]
+* retune[Number]:%なしの数字 [ex: 29.296]
 */
 @function calcPercent($numerator, $denominator) {
-  @return math.div($numerator, $denominator) * 100;
+  @return roundNumber(math.div($numerator, $denominator) * 100);
+}
+
+
+/*
+* line-heightを小数点第3位に丸める
+* $height[Number]: 分子 [ex: 28]
+* $fontSize[Number]: 分母 [ex: 13]
+* retune[String]: %表記 [ex: 0.737]
+*/
+@function calcLineHeight($height, $fontSize) {
+  $lineHeight: math.div($height, $fontSize);
+  @return #{roundNumber($lineHeight)};
 }
 
 
@@ -63,7 +87,7 @@ $CONTENTS_WIDTH: 1024;
 * 最大値が設定されていた場合、推奨値は最大値に合わせる
 * 基本的に$middleは0
 */
-@function clamp_vw($min, $middle: 0, $max: 0) {
+@function clamp_rem($min, $middle: 0, $max: 0) {
   // 最小値から滑らかにサイズが上がるように計算されたvw
   $calculated_middle_fz_for_min: roundNumber(calcPercent($min, $BREAKPOINT_TABLET));
 
@@ -148,6 +172,82 @@ $CONTENTS_WIDTH: 1024;
 }
 
 
+// VW（最大幅あり）
+@mixin customVw($param, $sp, $pc) {
+  #{$param}: spvw($sp);
+
+  @include media('md') {
+    #{$param}: vw($pc);
+  }
+
+  @include media('lg') {
+    #{$param}: rem($pc);
+  }
+}
+
+
+@mixin font-size($sp, $pc) {
+  @include customVw('font-size', $sp, $pc);
+}
+
+@mixin flex-basis($sp, $pc) {
+  @include customVw('flex-basis', $sp, $pc);
+}
+
+@mixin width($sp, $pc) {
+  @include customVw('width', $sp, $pc);
+}
+
+@mixin height($sp, $pc) {
+  @include customVw('height', $sp, $pc);
+}
+
+@mixin margin-top($sp, $pc) {
+  @include customVw('margin-top', $sp, $pc);
+}
+
+@mixin margin-right($sp, $pc) {
+  @include customVw('margin-right', $sp, $pc);
+}
+
+@mixin margin-bottom($sp, $pc) {
+  @include customVw('margin-bottom', $sp, $pc);
+}
+
+@mixin margin-left($sp, $pc) {
+  @include customVw('margin-left', $sp, $pc);
+}
+
+@mixin padding-top($sp, $pc) {
+  @include customVw('padding-top', $sp, $pc);
+}
+
+@mixin padding-right($sp, $pc) {
+  @include customVw('padding-right', $sp, $pc);
+}
+
+@mixin padding-bottom($sp, $pc) {
+  @include customVw('padding-bottom', $sp, $pc);
+}
+
+@mixin padding-left($sp, $pc) {
+  @include customVw('padding-left', $sp, $pc);
+}
+
+@mixin absolute-right($right, $right-pc) {
+  @include customVw(right, $right, $right-pc);
+}
+
+@mixin absolute-top-left($top, $left, $top-pc, $left-pc) {
+  @include customVw(top, $top, $top-pc);
+  @include customVw(left, $left, $left-pc);
+}
+
+@mixin absolute-bottom-right($right, $bottom, $right-pc, $bottom-pc) {
+  @include customVw(right, $right, $right-pc);
+  @include customVw(bottom, $bottom, $bottom-pc);
+}
+
 
 // --------------------------
 // SNS Icon
@@ -163,67 +263,6 @@ $CONTENTS_WIDTH: 1024;
   clip-path: circle(50%);
   @supports not (aspect-ratio: 1/ 1) {
     height: $size;
-  }
-}
-
-@mixin iconExpandTrue() {
-  .c-icon-expand {
-    &::after {
-      transform: none;
-    }
-  }
-}
-
-@mixin iconBlank() {
-  &::after {
-    display: inline-block;
-    content: "";
-    width: rem(16);
-    height: rem(16);
-    background: url("/assets2022/images/icon_blank.svg") no-repeat left top / 100% 100%;
-  }
-}
-
-@mixin iconZoom() {
-  &::after {
-    display: block;
-    content: "";
-    width: 32px;
-    height: 32px;
-    background: var(--color-main) url("/assets/images/icon_zoom.svg") no-repeat 7px 7px / 19px 19px;
-    color: #fff;
-  }
-}
-
-@mixin hoverAction($name: "transparent") {
-  @if $name == "transparent" {
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  @if $name == "fill-in" {
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-}
-
-@mixin headingLeftBorder($line-height, $width: 4px) {
-  &::before {
-    display: block;
-    content: "";
-    position: absolute;
-    top: calc(50%);
-    left: 0;
-    height: calc(100% + ((1 - #{$line-height}) * 1em) + rem(6)); //+6は補正：文字高ママでいいなら不要
-    width: $width;
-    background-color: var(--color-main);
-    transform: translateY(calc(-50% + rem(1))); //+1はNoto Sans用の補正（やや下ズレするため）
   }
 }
 
@@ -265,38 +304,15 @@ $CONTENTS_WIDTH: 1024;
   }
 }
 
-@mixin sectionSideBorders($sideMargin: "default", $height: "default") {
-  @if $sideMargin == "default" {
-    $sideMargin: calc((100% - fluidMaxSize(1200)) / 2);
-  }
 
-  @if $height == "last" {
-    $height: calc(100% + rem(160));
-  } @else {
-    $height: 100%;
-  }
-
-  position: relative;
-
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    display: block;
-    content: "";
-    width: 1px;
-    height: $height;
-    background-color: var(--color-side-border);
-  }
-
-  &::before {
-    left: $sideMargin;
-  }
-
-  &::after {
-    right: $sideMargin;
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
   }
 }
+
 
 // --------------------------
 // アクセシビリティ

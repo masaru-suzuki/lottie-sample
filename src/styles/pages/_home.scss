@@ -1,4 +1,7 @@
 @use '../foundation/index' as *;
 
 main{
+  p{
+    font-size: clamp_rem($min: 20,$middle: 25, $max: 30);
+  }
 }

@@ -1,9 +1,10 @@
 extend /views/_layouts/_default
 
 append variable
-  - page.title = "title";
+  - page.title = "title - index.pug";
   - page.type = "website";
   - page.appId = 'Home'
+
 
 //- 最初に読み込む画像
 block preload
@@ -11,6 +12,7 @@ block preload
   //- link(href='/assets/images/home/bg_keyvisual_01_pc.jpg.webp' as='image' rel='preload' media='screen and (max-width: 600px)'
 
 block main
+
   +image({
     pc:{
       src: "/example/dummy-pc.jpg",

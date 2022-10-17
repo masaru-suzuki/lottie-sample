@@ -36,10 +36,11 @@ const srcDir = './src/';
 const baseDir = './public/';
 
 const srcPath = {
-  html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`],
+  html: [`${srcDir}views/**/*.pug`,  `!${srcDir}views/**/_*.pug`],
   css: `${srcDir}styles/*.scss`,
   img: `${srcDir}images/**`,
   webp: `${srcDir}images/**/*.+(jpg|jpeg|png)`,
+  copy: `${srcDir}dist/**/*`,
 };
 
 const destPath = {
@@ -47,6 +48,7 @@ const destPath = {
   css: `${baseDir}assets/css`,
   js: `${baseDir}assets/js`,
   img: `${baseDir}assets/images`,
+  copy: baseDir,
 };
 
 const watchPath = {
@@ -55,6 +57,7 @@ const watchPath = {
   js: `${srcDir}scripts/**/*`,
   img: `${srcDir}images/**/*`,
   webp: `${srcDir}images/**/*.+(jpg|jpeg|png)`,
+  copy: `${srcDir}dist/**/*`,
   reload: [
     `${baseDir}**/*.html`,
     `${baseDir}**/*.css`,
@@ -71,9 +74,11 @@ const watchPath = {
  * compile html
  */
 const html = () => {
-  return src(srcPath.html, {
-    since: lastRun(html),
-  })
+  // lastRun をオプションに入れると _**.pugファイルを編集した際に、reloadが走らない
+  // return src(srcPath.html, {
+  //   since: lastRun(html),
+  // })
+  return src(srcPath.html)
     .pipe(
       plumber({
         errorHandler: notify.onError('Error: <%= error.message %>'),
@@ -204,21 +209,32 @@ const reload = (done) => {
   done();
 };
 
+
+/**
+ * copy
+ */
+const copy = () => {
+  return src(srcPath.copy).pipe(dest(destPath.copy));
+};
+
+
 exports.html = html;
 exports.css = css;
 exports.js = js;
 exports.img = img;
 exports.webp = webp;
 exports.clean = clean;
+exports.copy = copy;
 
 // exports.build = parallel([html, css, js, img, webp]);
-exports.build = series(clean, html, css, js, img, webp);
+exports.build = series(clean, copy, html, css, js, img, webp);
 
-exports.default = parallel([html, css, js, img, webp, bs], () => {
-  watch(watchPath.html, html);
-  watch(watchPath.css, css);
-  watch(watchPath.js, js);
-  watch(watchPath.img, img);
-  watch(watchPath.webp, webp);
-  watch(watchPath.reload, reload);
+exports.default = parallel([html, copy, css, js, img, webp, bs], () => {
+  watch(watchPath.html, series(html, reload));
+  watch(watchPath.copy, series(copy, reload));
+  watch(watchPath.css, series(css, reload));
+  watch(watchPath.js, series(js, reload));
+  watch(watchPath.img, series(img, reload));
+  watch(watchPath.webp, series(webp, reload));
+  // watch(watchPath.reload, reload);
 });

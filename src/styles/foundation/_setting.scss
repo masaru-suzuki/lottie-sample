@@ -8,38 +8,12 @@
 
 body {
   font-family: var(--font-gothic);
-  font-feature-settings: 'pkna';
   font-size: rem(15);
   line-height: 1.5;
   letter-spacing: 0.03em;
-  color: var(--color-black);
-  margin: unset;
-  margin-top: var(--header-height-sp);
 
-  &::after {
-    display: block;
-    content: '';
-    height: var(--conversion-height-sp);
-
-    @include media() {
-      display: none;
-    }
-  }
 
   @include media() {
     font-size: rem(16);
-    margin-top: var(--header-height-pc);
   }
-}
-
-a {
-  color: var(--color-main);
-}
-
-pre {
-  font-family: inherit;
-}
-
-[lang='en'] {
-  font-family: var(--font-en-decoration);
 }
