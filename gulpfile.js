@@ -214,7 +214,7 @@ const reload = (done) => {
  * copy
  */
 const copy = () => {
-  return src(srcPath.copy).pipe(dest(destPath.copy));
+  return src(srcPath.copy, { dot: true }).pipe(dest(destPath.copy));
 };
 
 
