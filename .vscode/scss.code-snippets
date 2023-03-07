@@ -144,30 +144,15 @@
   },
   "absolute-Center": {
     "prefix": "abso-c",
-    "body": [
-      "position: absolute;",
-      "top: 50%;",
-      "left: 50%;",
-      "transform: translate(-50%, -50%);"
-    ]
+    "body": ["position: absolute;", "top: 50%;", "left: 50%;", "transform: translate(-50%, -50%);"]
   },
   "absolute-VerticalCenter": {
     "prefix": "abso-vc",
-    "body": [
-      "position: absolute;",
-      "top: 50%;",
-      "left: $1;",
-      "transform: translateY(-50%);"
-    ]
+    "body": ["position: absolute;", "top: 50%;", "left: $1;", "transform: translateY(-50%);"]
   },
   "absolute-HorizontalCenter": {
     "prefix": "abso-hc",
-    "body": [
-      "position: absolute;",
-      "top: $1;",
-      "left: 50%;",
-      "transform: translateX(-50%);"
-    ]
+    "body": ["position: absolute;", "top: $1;", "left: 50%;", "transform: translateX(-50%);"]
   },
   "before-image": {
     "prefix": "beforeimg",
@@ -187,17 +172,7 @@
   },
   "fontawesome": {
     "prefix": "fontawesome",
-    "body": [
-      "&::before {",
-      "position: absolute;",
-      "top: 30px;",
-      " left: 30px;",
-      "content: \"\f054\";",
-      "font-family: \"Font Awesome 5 Free\";",
-      "font-weight: 900;",
-      "font-size: 6px;",
-      "}"
-    ],
+    "body": ["&::before {", "position: absolute;", "top: 30px;", " left: 30px;", "content: \"\f054\";", "font-family: \"Font Awesome 5 Free\";", "font-weight: 900;", "font-size: 6px;", "}"],
     "description": "before要素の使用"
-  },
+  }
 }

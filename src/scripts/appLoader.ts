@@ -7,8 +7,7 @@ export type Functions = {
 
 const callApp = (functions: Functions, appId: string) => {
   // 指定されたページ名のイベントが存在するかチェック
-  const hasFunction =
-    !!functions[appId] && typeof functions[appId] === 'function';
+  const hasFunction = !!functions[appId] && typeof functions[appId] === 'function';
   if (!hasFunction) {
     return;
   }

@@ -1,18 +1,32 @@
-meta(name='format-detection' content='telephone=no')
-meta(name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover')
-meta(charset='utf-8')
+include ../_components/_configs
+
+
+meta(charset="utf-8")
+meta(http-equiv="X-UA-Compatible" content="IE=edge")
+meta(name="viewport" content="width=device-width, initial-scale=1")
+meta(name="format-detection" content="telephone=no")
 title #{page.title}
-meta(name='robots' content='index,follow')
-meta(name='googlebot' content='index,follow')
-meta(name='description' content=page.description)
-meta(name='keywords' content=page.keywords)
+meta(name="robots" content="index,follow")
+meta(name="googlebot" content="index,follow")
+meta(name="description" content=page.description)
+
 //- canonicalは絶対パス
-link(rel='canonical' href=page.url+page.dir)
-meta(property='og:locale' content=page.locale)
+link(rel="canonical" href=page.url+page.dir)
+meta(property="og:locale" content=page.locale)
 //- og:urlは絶対パス
-meta(property='og:url' content=page.url+page.dir)
-meta(property='og:type' content=page.type)
-meta(property='og:title' content=page.title)
-meta(property='og:description' content=page.description)
+meta(name="og:site_name" content=page.title)
+meta(property="og:url" content=page.url+page.dir)
+meta(property="og:type" content=page.type)
+meta(property="og:title" content=page.title)
+meta(property="og:description" content=page.description)
 //- OGPは絶対パス
-meta(property='og:image' content=page.url+page.ogimage)
+meta(name="og:image" content=page.url+page.ogimage)
+link(rel="shortcut icon" href="/favicon.ico")
+link(rel="apple-touch-icon" href="/apple-touch-icon.png")
+
+//- twitter
+meta(name="twitter:card" content="summary_large_image")
+meta(name="twitter:image", content=page.url+page.ogimage)
+meta(name="twitter:url", content=page.url+page.dir)
+meta(name="twitter:description", content=page.description)
+meta(name="twitter:title", content=page.title)

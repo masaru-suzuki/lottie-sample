@@ -6,14 +6,55 @@
 // Base
 // ========================================
 
+html {
+  height: stretch;
+  overflow-y: scroll;
+  // scroll lockを行なっており, lock解除後にスクロールしてしまうため、scroll-behavior: smoothをオフにしている
+
+  @include media('md') {
+    min-width: 1366px;
+  }
+}
+
 body {
-  font-family: var(--font-gothic);
-  font-size: rem(15);
+  @include font-gothic-bold;
+  overflow: hidden;
   line-height: 1.5;
-  letter-spacing: 0.03em;
+  color: var(--color-black);
+  letter-spacing: 0.02em;
+}
 
+.main {
+  position: relative;
+  margin-top: var(--header-height-sp);
 
-  @include media() {
-    font-size: rem(16);
+  @include media('md') {
+    margin-top: var(--header-height-pc);
+  }
+}
+
+// headerの変形するトリガー。スクロール位置はcssで調整している
+.l-header-smart-trigger {
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  height: 40px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+:where(body) {
+  img {
+    height: auto;
+    vertical-align: bottom;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.5;
   }
 }

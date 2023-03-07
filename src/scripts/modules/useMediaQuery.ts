@@ -20,11 +20,7 @@ export class UseMediaQuery {
   private mediaQuery = window.matchMedia(this.mediaQueryString);
   private ticking = false;
 
-  constructor(options: {
-    tablet?: () => void;
-    sp?: () => void;
-    mediaQueryString?: string;
-  }) {
+  constructor(options: { tablet?: () => void; sp?: () => void; mediaQueryString?: string }) {
     const { tablet, sp, mediaQueryString } = options;
 
     this.tabletFunction = tablet;

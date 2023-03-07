@@ -18,7 +18,6 @@
 
 .u-hiddenSp {
   display: none;
-
   @include media() {
     display: block;
   }
@@ -29,7 +28,6 @@
     display: none;
   }
 }
-
 
 // --------------------
 // Text
@@ -84,6 +82,7 @@
 .u-mt0 {
   margin-top: 0 !important;
 }
+
 .u-mb0 {
   margin-bottom: 0 !important;
 }
@@ -94,6 +93,7 @@
 .u-pb0 {
   padding-bottom: 0 !important;
 }
+
 .u-pt0 {
   padding-top: 0 !important;
 }

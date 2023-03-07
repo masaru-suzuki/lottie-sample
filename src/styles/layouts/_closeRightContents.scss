@@ -1,0 +1,10 @@
+@use '../foundation/index' as *;
+
+// コンテンツ幅になっているが、右側ピッタリになっているレイアウト
+
+.l-closeRightContents {
+  padding-left: var(--side-clamp-padding);
+  @include media('md') {
+    margin-left: var(--side-padding-percent);
+  }
+}

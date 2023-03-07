@@ -3,6 +3,7 @@
     "baseUrl": "./src/scripts/",
     "sourceMap": true,
     "target": "es5",
+    "downlevelIteration": true,
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "noImplicitAny": false,

@@ -3,10 +3,7 @@ import { UseMediaQuery } from './useMediaQuery';
  * Drop Drawer Mega Menu
  */
 
-const allClose = (
-  headers: NodeListOf<HTMLElement>,
-  panels: NodeListOf<HTMLElement>
-) => {
+const allClose = (headers: NodeListOf<HTMLElement>, panels: NodeListOf<HTMLElement>) => {
   Array.from(headers).forEach((header) => {
     header.setAttribute('aria-expanded', 'false');
   });
@@ -15,16 +12,11 @@ const allClose = (
   });
 };
 
-const expandedAction = (
-  navHeaders: NodeListOf<HTMLButtonElement> | null = null,
-  navPanels: NodeListOf<HTMLElement> | null = null
-) => {
+const expandedAction = (navHeaders: NodeListOf<HTMLButtonElement> | null = null, navPanels: NodeListOf<HTMLElement> | null = null) => {
   //同じaria-controlsをもつ要素をリストする
   const getHeaders = (header: HTMLButtonElement) => {
     const ariaControls = header.getAttribute('aria-controls');
-    const headers: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
-      `[aria-controls*='${ariaControls}']`
-    );
+    const headers: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`[aria-controls*='${ariaControls}']`);
     return headers;
   };
 
@@ -51,11 +43,7 @@ const expandedAction = (
   return { open, close };
 };
 
-const toggleExpanded = (
-  event: { currentTarget: any },
-  navHeaders: NodeListOf<HTMLButtonElement> | null = null,
-  navPanels: NodeListOf<HTMLElement> | null = null
-) => {
+const toggleExpanded = (event: { currentTarget: any }, navHeaders: NodeListOf<HTMLButtonElement> | null = null, navPanels: NodeListOf<HTMLElement> | null = null) => {
   const header = event.currentTarget;
   const panelId = <string>header.getAttribute('aria-controls');
   const panel = <HTMLElement>document.getElementById(panelId);
@@ -69,12 +57,8 @@ const toggleExpanded = (
 
 export class DDMM {
   private trigger = <HTMLButtonElement>document.getElementById('ddmm-trigger');
-  private headers: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
-    "[aria-controls*='ddmm-panel-']"
-  );
-  private panels: NodeListOf<HTMLElement> = document.querySelectorAll(
-    "[aria-labelledby*='ddmm-header-']"
-  );
+  private headers: NodeListOf<HTMLButtonElement> = document.querySelectorAll("[aria-controls*='ddmm-panel-']");
+  private panels: NodeListOf<HTMLElement> = document.querySelectorAll("[aria-labelledby*='ddmm-header-']");
   private backButton = {
     labelText: 'メインメニュー',
   };

@@ -1,13 +1,22 @@
+/**
+ * Intersection Observerを使いまわせるようにした
+ * @module
+ * @param {elements}  - 監視対象（querySelectorAllで指定したHTMLElement
+ * @param {intersectingCallback}  - 監視時の実行関数
+ * @param {unIntersectingCallback}  - 監視解除時の実行関数
+ * @param {options}  - intersection observerの個別オプション
+ * @return {} - []という形式で戻る。
+ */
+
+// 無名関数の型定義
+declare type NoNameFUnctionReturnVoid = (string, boolean) => void;
+
 export class ScrollObserver {
   private io: any;
   private options = {};
   private once = false;
 
-  constructor(
-    private elements: HTMLElement[],
-    private callback: Function,
-    options
-  ) {
+  constructor(private elements: HTMLElement[], private intersectingCallback: NoNameFUnctionReturnVoid, private unIntersectingCallback: NoNameFUnctionReturnVoid, options) {
     const defaultOptions = {
       root: null,
       rootMargin: '0px',
@@ -22,17 +31,16 @@ export class ScrollObserver {
   }
 
   private init() {
-    // console.log(this.elements);
     const initCallback = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.callback(entry.target, true);
+          this.intersectingCallback(entry.target, true);
 
           if (this.once) {
             observer.unobserve(entry.target);
           }
         } else {
-          this.callback(entry.target, false);
+          this.unIntersectingCallback(entry.target, false);
         }
       });
     };

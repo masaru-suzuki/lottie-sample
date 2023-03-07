@@ -1,0 +1,89 @@
+@use '../foundation/index' as *;
+
+.l-breadcrumb {
+  max-width: var(--content-width);
+  margin: 0 auto; // ページによってパンくず上のマージンが一定ではないため、ページ側で余白調整をする
+  background-color: var(--color-main);
+
+  @include media('md') {
+    background-color: inherit;
+  }
+}
+
+.l-breadcrumb__inner {
+  padding: clamp_rem($min: 4, $max: 12) rem(30) clamp_rem($min: 10, $max: 12) var(--side-inner-clamp-padding); // side padding をbreadcrumbsと合わせる
+  overflow-x: auto;
+}
+
+.l-breadcrumb__list {
+  display: flex;
+  gap: clamp_rem($min: 8, $max: 12);
+  align-items: baseline;
+
+  & > * + * {
+    position: relative;
+    display: flex;
+    gap: clamp_rem($min: 8, $max: 12);
+    align-items: baseline;
+
+    &::before {
+      width: 5px;
+      height: 8px;
+      color: var(--color-gray);
+      content: '';
+      background-image: url('/assets/images/icon_chevron_right_gray.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  // 家のアイコン
+  & > li:first-child {
+    a {
+      display: block;
+      width: 15px;
+      height: 13px;
+    }
+
+    img {
+      padding-bottom: 4px; //視差調整
+    }
+  }
+}
+
+.l-breadcrumb__link {
+  @include hover {
+    .l-breadcrumb__label::before {
+      width: 100%;
+    }
+  }
+
+  :where(&) .l-breadcrumb__label {
+    position: relative;
+    margin-right: 0; // overflowの時に、右端にくっついてしまう対策
+    color: var(--color-black);
+
+    &::before {
+      @include transition;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      content: '';
+      background-color: var(--color-main);
+    }
+  }
+}
+
+.l-breadcrumb__label {
+  @include font-gothic-regular;
+  margin-right: var(--side-clamp-padding-wide); // overflowの時に、右端にくっついてしまう対策
+  font-size: rem(11);
+  color: var(--color-secondary);
+  white-space: nowrap;
+
+  @include media('md') {
+    color: var(--color-text-decoration);
+  }
+}

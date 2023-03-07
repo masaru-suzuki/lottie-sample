@@ -4,32 +4,40 @@ include /views/_components/_mixins
 block variable
   -
     var page= {
-      title: site.title,
-      description: site.description,
-      keywords: '',
-      url: site.url,
-      dir: '/',
-      ogimage: '/assets/images/ogp.png',
-      type: 'article',
+      url: "https://www.gentosha.co.jp",
+      locale: "ja_jp",
+      siteName: "幻冬舎公式サイト",
+      title: "幻冬舎公式サイト", // title, meta title, og:title
+      description: "幻冬舎の公式サイト。作品の最新情報から特集・ニュースなど様々な情報がご覧いただけます。", // meta description og:description
+      dir: '/', // og:url, canonical
+      ogimage: '/assets/images/ogp.png', //ogp
+      type: 'website', // og:type
       appId: '', // ページ別JSの起動トリガーとなるID
-      bodyClassName: '',
-      locale: site.locale,
-      conversionEx: false,
-      crumbs: [],
-      mainType: ''
+      bodyClassName: '', // bodyに付与するクラス
+      crumbs: [], // パンくず, 構造化マークアップ
     }
+
 
 doctype
 html(lang="ja")
   head
     include /views/_components/_meta
+    include /views/_components/_fonts
+    include /views/_components/_styles
     block preload
-    //#include virtual="/includes/meta.html"
+    include /views/_components/_ga_head
   body(data-app=page.appId, class=page.bodyClassName)
-    //#include virtual="/includes/header.html"
+    +phpInclude('/includes/header.php')
 
     main#pageTop.main
       +crumbs(page.crumbs)
-      block main
-    unless page.type == 'website' || page.appId == "Inquiry"
-    //#include virtual="/includes/footer.html"
+      block mv
+      #js-contents.js-contents
+        block main
+
+    if page.advancedSearch
+      +phpInclude('/includes/search.php')
+
+    +phpInclude('/includes/footer.php')
+    include /views/_components/_ga_body
+    include /views/_components/_scripts

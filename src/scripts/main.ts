@@ -1,14 +1,10 @@
 import { appLoader, Functions } from './appLoader';
 import { Common } from './apps/Common';
 import { Home } from './apps/Home';
-import { Inquiry } from './apps/Inquiry';
-import { Example } from './apps/Example';
 
 const functions: Functions = {
   Common,
   Home,
-  Inquiry,
-  Example,
 };
 
 const docReady = () => {

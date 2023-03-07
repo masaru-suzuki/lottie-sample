@@ -18,7 +18,7 @@ const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const imagemin = require('gulp-imagemin');
 const gulpWebp = require('gulp-webp');
-const connectSSI = require('connect-ssi');
+const connect = require('gulp-connect-php');
 const gulpIf = require('gulp-if');
 const del = require('del');
 
@@ -36,7 +36,8 @@ const srcDir = './src/';
 const baseDir = './public/';
 
 const srcPath = {
-  html: [`${srcDir}views/**/*.pug`,  `!${srcDir}views/**/_*.pug`],
+  html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`],
+  // php: `${srcDir}views/includes/**/*.pug`,
   css: `${srcDir}styles/*.scss`,
   img: `${srcDir}images/**`,
   webp: `${srcDir}images/**/*.+(jpg|jpeg|png)`,
@@ -45,6 +46,7 @@ const srcPath = {
 
 const destPath = {
   html: baseDir,
+  // php: `${baseDir}includes`,
   css: `${baseDir}assets/css`,
   js: `${baseDir}assets/js`,
   img: `${baseDir}assets/images`,
@@ -58,17 +60,8 @@ const watchPath = {
   img: `${srcDir}images/**/*`,
   webp: `${srcDir}images/**/*.+(jpg|jpeg|png)`,
   copy: `${srcDir}dist/**/*`,
-  reload: [
-    `${baseDir}**/*.html`,
-    `${baseDir}**/*.css`,
-    `${baseDir}**/*.js`,
-    `${baseDir}**/*.jpg`,
-    `${baseDir}**/*.gif`,
-    `${baseDir}**/*.png`,
-    `${baseDir}**/*.svg`,
-  ],
+  reload: [`${baseDir}**/*.html`, `${baseDir}**/*.php`, `${baseDir}**/*.css`, `${baseDir}**/*.js`, `${baseDir}**/*.jpg`, `${baseDir}**/*.gif`, `${baseDir}**/*.png`, `${baseDir}**/*.svg`],
 };
-
 
 /**
  * compile html
@@ -78,7 +71,37 @@ const html = () => {
   // return src(srcPath.html, {
   //   since: lastRun(html),
   // })
-  return src(srcPath.html)
+  return (
+    src(srcPath.html)
+      .pipe(
+        plumber({
+          errorHandler: notify.onError('Error: <%= error.message %>'),
+        })
+      )
+      .pipe(
+        data((file) => {
+          return {
+            mockup: JSON.parse(fs.readFileSync(`${srcDir}data/mockup.json`)),
+          };
+        })
+      )
+      .pipe(
+        pug({
+          basedir: './src',
+          pretty: true,
+        })
+      )
+      // .pipe(
+      //   rename({
+      //     extname: '.php',
+      //   })
+      // )
+      .pipe(dest(destPath.html))
+  );
+};
+
+const php = () => {
+  return src(srcPath.php)
     .pipe(
       plumber({
         errorHandler: notify.onError('Error: <%= error.message %>'),
@@ -98,16 +121,18 @@ const html = () => {
         pretty: true,
       })
     )
-    .pipe(dest(destPath.html));
+    .pipe(
+      rename({
+        extname: '.php',
+      })
+    )
+    .pipe(dest(destPath.php));
 };
 
 /**
  * compile css
  */
-const postCssPlugins = [
-  autoprefixer({ grid: 'no-autoplace', cascade: false }),
-  cssDeclarationSorter({ order: 'concentric-css' }),
-];
+const postCssPlugins = [autoprefixer({ grid: 'no-autoplace', cascade: false }), cssDeclarationSorter({ order: 'concentric-css' })];
 
 const css = () => {
   return src(srcPath.css)
@@ -152,7 +177,27 @@ const img = () => {
         imagemin.mozjpeg({ quality: 75, progressive: true }),
         imagemin.optipng({ optimizationLevel: 5 }),
         imagemin.svgo({
-          plugins: [{ removeViewBox: false }, { cleanupIDs: false }],
+          plugins: [
+            // viewBox属性を削除する（widthとheight属性がある場合）。
+            // 表示が崩れる原因になるので削除しない。
+            { removeViewBox: false },
+            // <metadata>を削除する。
+            // 追加したmetadataを削除する必要はない。
+            { removeMetadata: false },
+            // SVGの仕様に含まれていないタグや属性、id属性やvertion属性を削除する。
+            // 追加した要素を削除する必要はない。
+            { removeUnknownsAndDefaults: false },
+            // コードが短くなる場合だけ<path>に変換する。
+            // アニメーションが動作しない可能性があるので変換しない。
+            { convertShapeToPath: false },
+            // 重複や不要な`<g>`タグを削除する。
+            // アニメーションが動作しない可能性があるので変換しない。
+            { collapseGroups: false },
+            // SVG内に<style>や<script>がなければidを削除する。
+            // idにアンカーが貼られていたら削除せずにid名を縮小する。
+            // id属性は動作の起点となることがあるため削除しない。
+            { cleanupIDs: false },
+          ],
         }),
       ])
     )
@@ -179,36 +224,35 @@ const webp = () => {
  * clean
  */
 const clean = () => {
-    return del(['public/*/']);
+  return del(['public/*/']);
 };
 
 /**
  * browser sync
  */
-const bs = (done) => {
-  browserSync.init({
-    server: {
-      baseDir: baseDir,
-      middleware: [
-        connectSSI({
-          baseDir: __dirname + '/public',
-          ext: '.html',
-        }),
-      ],
+const bs = () => {
+  connect.server(
+    {
+      base: 'public',
+      port: 3000, // browserSyncのproxy portと揃える
+      stdio: 'ignore', // terminalへの出力を止める
     },
-    ghostMode: false,
-  });
-  done();
+    function () {
+      browserSync({
+        proxy: '127.0.0.1:3000',
+        notify: false,
+      });
+    }
+  );
 };
 
 /**
- * browser reroad
+ * browser reload
  */
 const reload = (done) => {
   browserSync.reload();
   done();
 };
-
 
 /**
  * copy
@@ -217,18 +261,21 @@ const copy = () => {
   return src(srcPath.copy, { dot: true }).pipe(dest(destPath.copy));
 };
 
-
 exports.html = html;
+exports.php = php;
 exports.css = css;
 exports.js = js;
 exports.img = img;
 exports.webp = webp;
 exports.clean = clean;
+exports.reload = reload;
 exports.copy = copy;
 
-// exports.build = parallel([html, css, js, img, webp]);
+// exports.build = series(clean, copy, html, php, css, js, img, webp);
 exports.build = series(clean, copy, html, css, js, img, webp);
-
+// exports.compile = series(html, php, css, js);
+exports.compile = series(html, css, js);
+// exports.default = parallel([html, php, copy, css, js, img, webp, bs], () => {
 exports.default = parallel([html, copy, css, js, img, webp, bs], () => {
   watch(watchPath.html, series(html, reload));
   watch(watchPath.copy, series(copy, reload));
@@ -236,5 +283,4 @@ exports.default = parallel([html, copy, css, js, img, webp, bs], () => {
   watch(watchPath.js, series(js, reload));
   watch(watchPath.img, series(img, reload));
   watch(watchPath.webp, series(webp, reload));
-  // watch(watchPath.reload, reload);
 });

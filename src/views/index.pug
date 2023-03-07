@@ -1,18 +1,24 @@
 extend /views/_layouts/_default
 
 append variable
-  - page.title = "title - index.pug";
-  - page.type = "website";
-  - page.appId = 'Home'
-
+  - page.title = 'top page dummy';
+  - page.description = 'dummy description';
+  - page.dir = '/';
+  - page.type = 'website';
+  - page.appId = "Home";
+  - page.bodyClassName = "home";
 
 //- 最初に読み込む画像
 block preload
-  //- Sample
-  //- link(href='/assets/images/home/bg_keyvisual_01_pc.jpg.webp' as='image' rel='preload' media='screen and (max-width: 600px)'
+  +preload([
+    {"sp":["dummy-pc.jpg","dummy.jpg"]},
+  ]
+  )
+
+
 
 block main
-
+  h1 h1
   +image({
     pc:{
       src: "/example/dummy-pc.jpg",
@@ -26,18 +32,3 @@ block main
     },
     alt: ""
   })
-
-  //- 名前のルールが決まっている場合
-  +responsiveJpgImage({
-    src: "/example/dummy",
-    sp:{
-      width: "375",
-      height: "660",
-    },
-    pc: {
-      width: "1920",
-      hight: "1280"
-    },
-    alt: ""
-  })
-  p index

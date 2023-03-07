@@ -1,72 +1,83 @@
 @use 'sass:math';
+
 @use './media' as *;
 
-// --------------------
+// ---------------------------------------
 // Defined
-// --------------------
+// ---------------------------------------
 $DEFAULT_FONT_SIZE: 16;
 $BREAKPOINT_SP: 375;
 $BREAKPOINT_TABLET: 768;
 $BREAKPOINT_PC: 1366;
-$MAX_DEVICE_WIDTH: 1600;
-$CONTENTS_WIDTH: 1024;
+$BREAKPOINT_PC_LG: 1600;
+$CONTENTS_WIDTH: 1366;
 
-// --------------------
+// ---------------------------------------
 // Utility Functions
-// --------------------
+// ---------------------------------------
 
-/*
-* pxをremに変換する
-* $px[Number]: px [ex: 16]
-* retune[String]: rem変換した単位 [ex: 1rem]
-*/
+// ---------------------------------------
+// pxをremに変換する
+// $px[Number]: px [ex: 16]
+// retune[String]: rem変換した単位 [ex: 1rem]
+// ---------------------------------------
 @function rem($px) {
   @return math.div($px, 16) * 1rem;
 }
 
-/*
-* pxをvwに変換する
-* デフォルトはコンテンツ幅に対してのvw変換
-* $px[Number]: px [ex: 683]
-* $vw[Number]: コンテンツ幅 [ex: 1366]
-* retune[String]: vw変換した単位 [ex: 50vw]
-*/
+// ---------------------------------------
+// pxをvwに変換する
+// デフォルトはコンテンツ幅に対してのvw変換
+// $px[Number]: px [ex: 683]
+// $vw[Number]: コンテンツ幅 [ex: 1240]
+// retune[String]: vw変換した単位 [ex: 50vw]
+// ---------------------------------------
 @function vw($px, $vw: $CONTENTS_WIDTH) {
   @return math.div($px, $vw) * 100vw;
 }
 
-/*
-* pxをvwに変換する
-* SPデバイス専用
-* retune[String]: vw変換した単位 [ex: 50vw]
-*/
-@function spvw($px, $vw: $SP_DEVICE_WIDTH) {
+// ---------------------------------------
+// pxをvwに変換する
+// SPデバイス専用
+// retune[String]: vw変換した単位 [ex: 50vw]
+// ---------------------------------------
+@function spvw($px, $vw: $BREAKPOINT_SP) {
   @return #{calcPercent($px, $vw)}vw;
 }
 
-
-/*
-* 100分率に変換するして小数点第3位にまとめる
-* $numerator[Number]: 分子 [ex: 300]
-* $denominator[Number]: 分母 [ex: 1024]
-* retune[Number]:%なしの数字 [ex: 29.296]
-*/
+// ---------------------------------------
+// 100分率に変換するして小数点第3位にまとめる
+// $numerator[Number]: 分子 [ex: 300]
+// $denominator[Number]: 分母 [ex: 1024]
+// retune[Number]:%なしの数字 [ex: 29.296]
+// ---------------------------------------
 @function calcPercent($numerator, $denominator) {
   @return roundNumber(math.div($numerator, $denominator) * 100);
 }
 
+// ---------------------------------------
+// 100分率に変換するして小数点第3位にまとめる
+// $numerator[Number]: 分子 [ex: 300]
+// $denominator[Number]: 分母 [ex: 1024]
+// retune[Number]:%表記 [ex: 29.296%]
+// ---------------------------------------
+@function roundPercent($numerator, $denominator) {
+  $result: calcPercent($numerator, $denominator) * 1%;
 
-/*
-* line-heightを小数点第3位に丸める
-* $height[Number]: 分子 [ex: 28]
-* $fontSize[Number]: 分母 [ex: 13]
-* retune[String]: %表記 [ex: 0.737]
-*/
-@function calcLineHeight($height, $fontSize) {
-  $lineHeight: math.div($height, $fontSize);
-  @return #{roundNumber($lineHeight)};
+  @return $result;
 }
 
+// ---------------------------------------
+// line-heightを小数点第3位に丸める
+// $height[Number]: 分子 [ex: 28]
+// $fontSize[Number]: 分母 [ex: 13]
+// retune[String]: %表記 [ex: 0.737]
+// ---------------------------------------
+@function calcLineHeight($height, $fontSize) {
+  $lineHeight: math.div($height, $fontSize);
+
+  @return #{roundNumber($lineHeight)};
+}
 
 // 小数点3桁にする
 // ex) 123.456789 => 123.457
@@ -74,103 +85,60 @@ $CONTENTS_WIDTH: 1024;
   @return math.div(round($num * 1000), 1000);
 }
 
-// --------------------
+// ---------------------------------------
 // Functions
-// --------------------
+// ---------------------------------------
 
+// ---------------------------------------
+// clampの推奨値を自動で計算するmixin
+// $min < $max
+// https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+// ---------------------------------------
 
-/**
-* 0 < $min < $middle < $max
-* 最小のサイズを渡すと、clampを返す関数
-* 推奨値と最大値を設定することもできる
-* 推奨値や最大値が設定されたときには、そちらが優先される
-* 最大値が設定されていた場合、推奨値は最大値に合わせる
-* 基本的に$middleは0
-*/
-@function clamp_rem($min, $middle: 0, $max: 0) {
-  // 最小値から滑らかにサイズが上がるように計算されたvw
-  $calculated_middle_fz_for_min: roundNumber(calcPercent($min, $BREAKPOINT_TABLET));
-
-  // 最大値に滑らかに移行するように計算されたvw
-  $calculated_middle_fz_for_max: roundNumber(calcPercent($max, $BREAKPOINT_PC));
-
-  // tabletサイズの時に計算された推奨値
-  $calculated_middle_fz_for_middle: roundNumber(calcPercent($middle, $BREAKPOINT_TABLET));
-
-  // $minがPC幅になったときのサイズを計算
-  $calculated_max_fz: round($BREAKPOINT_PC * math.div($calculated_middle_fz_for_min, 100));
-
-  /**
-  最小値
-  */
+@function clamp_rem($min, $max) {
+  // 最小値
   $min_size: rem($min);
 
-  /**
-  * 推奨値
-  * 推奨値が指定されていなかったら、最小値から算出する
-  */
-  $middle_fz: $calculated_middle_fz_for_min;
-  @if ($middle != 0) {
-    $middle_fz: $calculated_middle_fz_for_middle;
-  } @else {
-    @if ($max != 0) {
-      $middle_fz: $calculated_middle_fz_for_max;
-    }
-  }
+  // 最大値
+  $max_size: rem($max);
 
-  /**
-  * 最大値
-  * 最大値が指定されていなかったら最小値から算出する
-  * 最大値が設定されていない、かつ、推奨値が設定されている場合は、推奨値を最大値とする
-  */
-  $max_fz: rem($calculated_max_fz);
-  @if ($max != 0) {
-    $max_fz: rem($max);
-  } @else {
-    @if ($middle != 0) {
-      $max_fz: rem($middle);
-    }
-  }
+  // 推奨値
+  // slope = (最大フォントサイズ – 最小フォントサイズ) / (最大viewport – 最小viewport)
+  // yAxisIntersection = -最小viewport * slope + 最小フォントサイズ
+  // preferredValue = yAxisIntersection[rem] + (slope * 100)[vw]
+  $slope: math.div(($max - $min), ($BREAKPOINT_TABLET - $BREAKPOINT_SP));
+  $yAxisIntersection: -1 * $BREAKPOINT_SP * $slope + $min;
+  $preferredValue: rem($yAxisIntersection);
+  $middle: #{$preferredValue} + ' + ' + $slope * 100vw;
 
-  @return clamp(#{$min_size}, #{$middle_fz}vw, #{$max_fz});
+  @return clamp(#{$min_size}, #{$middle}, #{$max_size});
 }
 
-// --------------------------
-// Animations
-// --------------------------
+// ---------------------------------------
+// clampの推奨値を自動で計算するmixin
+// 1366px ~ 1600px
+// $min < $max
+// https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+// ---------------------------------------
 
-// Button Animation
-@mixin bgSlideAnimation() {
-  display: block;
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 100%;
-  background-color: var(--color-secondary);
-  transition: width 0.2s;
+@function clamp_xl($min, $max) {
+  // 最小値
+  $min_size: rem($min);
+
+  // 最大値
+  $max_size: rem($max);
+
+  // 推奨値
+  // slope = (最大フォントサイズ – 最小フォントサイズ) / (最大viewport – 最小viewport)
+  // yAxisIntersection = -最小viewport * slope + 最小フォントサイズ
+  // preferredValue = yAxisIntersection[rem] + (slope * 100)[vw]
+  $slope: math.div(($max - $min), ($BREAKPOINT_PC_LG - $BREAKPOINT_PC));
+  $yAxisIntersection: -1 * $BREAKPOINT_PC * $slope + $min;
+  $preferredValue: rem($yAxisIntersection);
+  $middle: #{$preferredValue} + ' + ' + $slope * 100vw;
+
+  @return clamp(#{$min_size}, #{$middle}, #{$max_size});
 }
-
-@mixin bgSlideAnimation-hover() {
-  width: 100%;
-}
-
-@mixin lineAnimation() {
-  position: absolute;
-  content: "";
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--color-main);
-  transition: 0.2s ease;
-}
-
-@mixin lineAnimation-hover() {
-  width: 100%;
-}
-
 
 // VW（最大幅あり）
 @mixin customVw($param, $sp, $pc) {
@@ -184,7 +152,6 @@ $CONTENTS_WIDTH: 1024;
     #{$param}: rem($pc);
   }
 }
-
 
 @mixin font-size($sp, $pc) {
   @include customVw('font-size', $sp, $pc);
@@ -248,75 +215,196 @@ $CONTENTS_WIDTH: 1024;
   @include customVw(bottom, $bottom, $bottom-pc);
 }
 
-
-// --------------------------
-// SNS Icon
-// --------------------------
-
-// SNSのアイコンを中央よせする
-// ex) $size = 30
-@mixin circleIcon($size) {
-  display: grid;
-  place-items: center;
-  width: rem($size);
-  aspect-ratio: 1 / 1;
-  clip-path: circle(50%);
-  @supports not (aspect-ratio: 1/ 1) {
-    height: $size;
-  }
-}
-
-@mixin lineHeightCrop($line-height) {
-  &::before {
-    display: block;
-    width: 0;
-    height: 0;
-    margin-top: calc((1 - #{$line-height}) * 0.5em);
-    content: "";
-  }
-
-  &::after {
-    display: block;
-    width: 0;
-    height: 0;
-    margin-bottom: calc((1 - #{$line-height}) * 0.5em);
-    content: "";
-  }
-}
-
-@mixin jaStringBreakControl() {
-  span:not([class]) {
-    display: inline-block;
-  }
-
-  span.t-jaStringBr-sp {
-    display: inline-block;
-
-    @include media() {
-      display: inline;
-    }
-  }
-
-  span.t-jaStringBr-pc {
-    @include media() {
-      display: inline-block;
-    }
-  }
-}
-
+// ----------------------------------------
+// Hover
+// ----------------------------------------
 
 @mixin hover {
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
+  @include media('md') {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        @content;
+      }
+    }
+  }
+}
+
+// ----------------------------------------
+// Focus
+// ----------------------------------------
+@mixin focus {
+  @include media('md') {
+    &:focus {
       @content;
     }
   }
 }
 
+// ----------------------------------------
+// [SP]Contentsの一部だけ全幅にする
+// 最大幅がある場合利用できない
+// ----------------------------------------
 
-// --------------------------
+@mixin side-fit {
+  margin-right: calc(50% - 50vw); //scroll-bar分調整入れています
+  margin-left: calc(50% - 50vw);
+
+  @include media('md') {
+    width: 100vw;
+    margin-right: calc(50% - 50vw + 10px); //scroll-bar分調整入れています
+    margin-left: calc(50% - 50vw + 10px);
+  }
+}
+
+// ----------------------------------------
+// Contentsの一部だけ全幅にする
+// その中の要素はコンテンツ幅にする
+// ----------------------------------------
+
+@mixin side-fit-bg {
+  margin-right: calc(50% - 50vw); //scroll-bar分調整入れています
+  margin-left: calc(50% - 50vw);
+
+  @include media('md') {
+    width: 100vw;
+    padding-right: calc(50vw - 50% - 10px);
+    padding-left: calc(50vw - 50% - 10px);
+    margin-right: calc(50% - 50vw + 10px); //scroll-bar分調整入れています
+    margin-left: calc(50% - 50vw + 10px);
+  }
+}
+
+// ----------------------------------------
+// Font
+// ----------------------------------------
+
+@mixin font-gothic-regular {
+  font-family: var(--font-gothic-regular);
+}
+
+@mixin font-gothic-medium {
+  font-family: var(--font-gothic-medium);
+}
+
+@mixin font-gothic-bold {
+  font-family: var(--font-gothic-bold);
+}
+
+@mixin font-mincho {
+  font-family: var(--font-mincho);
+}
+
+@mixin font-en {
+  font-family: var(--font-base-en);
+}
+
+@mixin font-decoration {
+  font-family: var(--font-decoration);
+}
+
+// ----------------------------------------
+// Animations
+// ----------------------------------------
+// 基本のtransition
+@mixin transition {
+  transition: 0.3s cubic-bezier(0.75, 0, 0, 1);
+}
+
+@mixin headerLineAnimation() {
+  @include transition;
+  position: absolute;
+  bottom: -0.2em;
+  left: 0;
+  width: 0;
+  height: 1px;
+  content: '';
+  background-color: var(--color-secondary);
+}
+
+@mixin headerLineAnimation-hover() {
+  width: 100%;
+}
+
+// button 矢印アニメーション
+@mixin arrowAnimation() {
+  animation: arrowAnimation 0.8s cubic-bezier(0.75, 0, 0, 1) 0s;
+}
+
+@keyframes arrowAnimation {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(200%);
+  }
+
+  30% {
+    transform: translateX(200%);
+  }
+
+  31% {
+    transform: translateX(-200%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// 下線アニメーション 元々ラインなし
+@mixin lineAnimation() {
+  background: url('/assets/images/img_line.png') no-repeat left bottom;
+  background-size: 0% 1px;
+  transition: background-size 0.6s cubic-bezier(0.75, 0, 0, 1) 0s;
+  will-change: background-size;
+}
+
+@mixin lineAnimation-hover() {
+  background-size: 100% 1px;
+}
+
+// 下線アニメーション 元々ラインあり
+@mixin lineRepeatAnimation() {
+  background: url('/assets/images/img_line.png') no-repeat left bottom;
+  background-size: 100% 1px;
+  will-change: background-size;
+}
+
+@mixin lineRepeatAnimation-hover() {
+  animation: lineRepeatAnimation 0.8s cubic-bezier(0.75, 0, 0, 1) 0s;
+}
+
+@keyframes lineRepeatAnimation {
+  0% {
+    background-position: right bottom;
+    background-size: 100% 1px;
+  }
+
+  20% {
+    background-position: right bottom;
+    background-size: 0 1px;
+  }
+
+  30% {
+    background-position: right bottom;
+    background-size: 0 1px;
+  }
+
+  31% {
+    background-position: left bottom;
+    background-size: 0 1px;
+  }
+
+  100% {
+    background-position: left bottom;
+    background-size: 100% 1px;
+  }
+}
+
+// ----------------------------------------
 // アクセシビリティ
-// --------------------------
+// ----------------------------------------
 // Bootstrap ver
 @mixin sr-only {
   position: absolute !important;
@@ -330,15 +418,22 @@ $CONTENTS_WIDTH: 1024;
   border: 0 !important;
 }
 
-// Apple ver
-// @mixin sr-only {
-//   position: absolute;
-//   width: 1px;
-//   height: 1px;
-//   padding: 0;
-//   overflow: hidden;
-//   clip: rect(1px, 1px, 1px, 1px);
-//   -webkit-clip-path: inset(0px 0px 99.9% 99.9%);
-//   clip-path: inset(0px 0px 99.9% 99.9%);
-//   border: 0;
+// ----------------------------------------
+// デバイスごとの出しわけ
+// ----------------------------------------
+// 注意）第一階層に記述しないといけない。
+// @mixin onlySafari($class) {
+//   $
+//   ::-webkit-full-page-media,
+//   _:future,
+//   :root '.' + $class {
+//     @content;
+//   }
 // }
+
+// firefox
+@mixin onlyFireFox {
+  @-moz-document url-prefix('') {
+    @content;
+  }
+}

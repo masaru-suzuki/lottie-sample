@@ -1,16 +1,7 @@
 {
   "mixin - image": {
     "prefix": "imgpc",
-    "body": [
-      "+image({",
-      "  pc:{",
-      "    src: \"/$1\",",
-      "    width: \"$2\",",
-      "    height: \"$3\"",
-      "  },",
-      "  alt: \"$4\"",
-      "})"
-    ],
+    "body": ["+image({", "  pc:{", "    src: \"/$1\",", "    width: \"$2\",", "    height: \"$3\"", "  },", "  alt: \"$4\"", "})"],
     "description": "画像が1ソースのときのmixin"
   },
   "mixin - image responsive": {
@@ -34,14 +25,7 @@
   },
   "mixin - Local Navigation": {
     "prefix": "localNavigation",
-    "body": [
-      "+localNavigation([",
-      "{",
-      "  heading: \"$0\",",
-      "  path: \"\"",
-      "},",
-      "])"
-    ],
+    "body": ["+localNavigation([", "{", "  heading: \"$0\",", "  path: \"\"", "},", "])"],
     "description": "pug mixin \"localNavigation\""
   },
   "mixin - Page Header": {
@@ -64,14 +48,7 @@
   },
   "mixin - Simple Page Header": {
     "prefix": "simplePageHeader",
-    "body": [
-      "+pageHeader({",
-      "    title: {",
-      "      ja: \"$0\",",
-      "      en: \"\"",
-      "    },",
-      "})"
-    ],
+    "body": ["+pageHeader({", "    title: {", "      ja: \"$0\",", "      en: \"\"", "    },", "})"],
     "description": "pug mixin \"localNavigation\""
   }
 }

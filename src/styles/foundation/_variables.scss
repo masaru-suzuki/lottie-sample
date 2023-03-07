@@ -1,31 +1,129 @@
+@font-face {
+  font-family: 'Font-gothic-regular';
+  src: url('/assets/fonts/NotoSansJP_regular.woff2') format('woff2');
+  src: url('/assets/fonts/NotoSansJP_regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Font-gothic-medium';
+  src: url('/assets/fonts/NotoSansJP_medium.woff2') format('woff2');
+  src: url('/assets/fonts/NotoSansJP_medium.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Font-gothic-bold';
+  src: url('/assets/fonts/NotoSansJP_bold.woff2') format('woff2');
+  src: url('/assets/fonts/NotoSansJP_bold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Font-mincho';
+  src: url('/assets/fonts/NotoSerifJP_black.woff2') format('woff2');
+  src: url('/assets/fonts/NotoSerifJP_black.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Font-en';
+  src: url('/assets/fonts/Playfair_Display.woff2') format('woff2');
+  src: url('/assets/fonts/Playfair_Display.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Font-decoration';
+  src: url('/assets/fonts/Poppins.woff2') format('woff2');
+  src: url('/assets/fonts/Poppins.woff') format('woff');
+  font-display: swap;
+}
+
 :root {
+  // ======================================
+  // colors
+  // ======================================
+  // background
+  --color-bg-black: #383838; // 黒背景
+  --color-bg-gray: #dbdbdb; // グレー背景
+  --color-bg-light: #ededed;
+  --color-bg: #f5f5f5;
+
+  // border
+  --color-border: #e0e0e0;
+
+  // main
+  --color-main: #000;
+
+  // secondary
+  --color-secondary: #fff;
+
+  // text
+  --color-text-copy: #d0d0d0; // KV書籍キャッツコピー
+  --color-text-decoration: #888; // テキスト（弱）
+  --color-text-lg: #ededed; // 大きい欧文(Gentosha)・斜め背景・斜線
+  --color-text-primary: #ebebeb; // 基本テキスト
+  --color-text-secondary: #ebebeb; // セカンダリー
+
   // ======================================
   // Font
   // ======================================
-  --font-gothic: 'Noto Sans JP', 'Helvetica Neue', Arial,
-    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-  --font-gothic: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN',
-    'Hiragino Sans', Meiryo, sans-serif;
-  --font-en-decoration: 'Poppins', sans-serif;
+  // Fontのベースはmixinを使ってください。
+  // NOTE: レンダリング後にfontが変わるのが気になる場合、fontをpreloadする。
+  // fall backはこの記事を参考にしています（https://ics.media/entry/200317/）
+
+  // 英字ベースフォント
+  // Playfair Display [Bold]
+  --font-base-en: 'Font-en', 'Helvetica Neue', arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', meiryo;
+
+  // 英字装飾フォント
+  // Poppins [Medium]
+  --font-decoration: 'Font-decoration', 'Helvetica Neue', arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', meiryo;
+
+  // 日本語ベースフォント
+  // Noto Sans JP [Regular] => --font-gothic-regular
+  // Noto Sans JP [Medium] => --font-gothic-medium;
+  // Noto Sans JP [Bold] => --font-gothic-bold; *** base-font
+  --font-gothic-regular: 'Font-gothic-regular', 'Helvetica Neue', arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', meiryo;
+  --font-gothic-medium: 'Font-gothic-medium', 'Helvetica Neue', arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', meiryo;
+  --font-gothic-bold: 'Font-gothic-bold', 'Helvetica Neue', arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', meiryo;
+
+  // 明朝体日本語フォント
+  // Noto Serif JP [Black]
+  --font-mincho: 'Font-mincho', 'Helvetica Neue', arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', meiryo;
 
   // ======================================
-  // Color
+  // アニメーション
   // ======================================
-  --color-main: #002896;
-  --color-secondary: #dbe4ff;
-  --color-accent-light: #f8faff;
-  --color-accent-dark: #bf0000;
-  --color-background: #f7f7f7;
-  --color-border: #dedede;
-  --color-side-border: #ededed;
-  --color-white: #fff;
-  --color-black: #09090c;
-  --color-gray: #aaa;
+  --hover-image-brightness: 0.7;
+  --hover-image-scale: 1.08;
+
   // ======================================
   // Layout
   // ======================================
-  --header-height-sp: 3.75rem; //60px
-  --header-height-pc: 8rem; //128px
-  --header-height-pc-tight: 4.5rem; //72px
-  --conversion-height-sp: 3.75rem; //60px
+  // コンテンツ幅
+  --content-width: 1366px; // 1200px + padding 83px * 2 = 1366px
+  --content-width-inner: 1200px;
+  // --content-width-narrow: 1008px; // 928px + padding 40px * 2 = 1008px => ページ内リンク
+  --content-width-xl: 1483px; // 1317px + padding 83px * 2 = 1483px => 1600px以上のデバイスでのコンテンツ幅のパターン
+
+  // ======================================
+  // サイド余白
+  // ======================================
+  --side-clamp-padding: clamp(1rem, -2.9957rem + 17.0483vw, 5.1875rem); // 16px ~ 83px
+  --side-default-padding-sp: 1rem; // 16px
+  --side-default-padding-pc: 5.1875rem; // 83px
+
+  --side-inner-clamp-padding: clamp(1rem, 0.0458015267rem + 4.0712468193vw, 2rem); // 16px ~ 32px
+  --side-inner-padding-sp: 1rem; // 16px => コンテンツの内側のpadding
+  --side-inner-padding-wide-sp: 2rem; // 32px => コンテンツの内側のpadding(幅広バージョン）
+  --side-inner-padding-pc: 2rem; // 32px => コンテンツの内側のpadding
+  --side-negative-margin: calc(50% - 50vw); // コンテンツの内側の要素を端に寄せるためのネガティブマージン
+  // ======================================
+  // header
+  // ======================================
+  --header-height-pc: 7.3125rem; // 126px
+  --header-height-pc-smart: 5.875rem; // 94px
+  --header-height-sp: 3.75rem; // 60px
 }

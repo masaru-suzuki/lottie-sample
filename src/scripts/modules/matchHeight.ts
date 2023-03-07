@@ -14,8 +14,7 @@ const handleMatchHeight = (items: HTMLElement[]) => {
 };
 
 export const matchHeight = (options = { onlyTablet: false }) => {
-  const items: NodeListOf<HTMLElement> =
-    document.querySelectorAll('[data-matchheight]');
+  const items: NodeListOf<HTMLElement> = document.querySelectorAll('[data-matchheight]');
   if (items.length < 1) {
     return;
   }
@@ -33,9 +32,7 @@ export const matchHeight = (options = { onlyTablet: false }) => {
         return;
       }
 
-      const groupItems = orgItems.filter(
-        (item) => item.dataset.matchheight === group
-      );
+      const groupItems = orgItems.filter((item) => item.dataset.matchheight === group);
 
       handleMatchHeight(groupItems);
     });

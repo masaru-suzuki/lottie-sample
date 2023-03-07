@@ -1,0 +1,54 @@
+@use '../foundation/index' as *;
+
+.l-contents {
+  max-width: var(--content-width); // contents-width 1020px + padding 40px * 2 = 1100px
+  padding-right: var(--side-clamp-padding);
+  padding-right: clamp_rem($min: 16, $max: 83);
+  padding-left: clamp_rem($min: 16, $max: 83);
+  margin: 0 auto;
+
+  :where(&).-narrow {
+    // max-width: var(--content-width-narrow);
+  }
+
+  :where(&).-wide {
+    // max-width: var(--content-width-wide);
+    // padding-right: var(--side-clamp-padding-wide);
+    // padding-left: var(--side-clamp-padding-wide);
+  }
+
+  // NOTE: コンテンツ内の要素のコンテンツ幅をl-contentsと同じにする場合は、.l-contents.-closeRightPcで囲われた子要素に `padding-right: calc(50vw - var(--content-width) / 2);`を付ける
+  :where(&).-closeRightPc {
+    @include media('md') {
+      max-width: inherit;
+      padding-right: inherit;
+      margin-right: var(--side-negative-margin);
+      margin-left: calc(50% - var(--content-width) / 2);
+    }
+  }
+
+  // NOTE: コンテンツ内の要素のコンテンツ幅をl-contentsと同じにする場合は、.l-contents.-closeLeftPcで囲われた子要素に `padding-left: calc(50vw - var(--content-width) / 2);`を付ける
+  :where(&).-closeLeftPc {
+    @include media('md') {
+      max-width: inherit;
+      padding-right: var(--side-default-padding-pc);
+      padding-left: inherit;
+      margin-right: calc(50% - var(--content-width) / 2);
+      margin-left: var(--side-negative-margin);
+    }
+  }
+
+  :where(&).-fullSp {
+    @include media-max('md') {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  // breakpoint 1600px 以上のパターン
+  :where(&).-xl {
+    @include media('xxl') {
+      max-width: var(--content-width-xl);
+    }
+  }
+}

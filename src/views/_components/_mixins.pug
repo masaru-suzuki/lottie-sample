@@ -1,83 +1,108 @@
+include ../_components/_configs
+
+//----------------------------------------
+//- MV
+//----------------------------------------
+mixin mv(data)
+  .l-mv
+    .l-contents.l-mv__inner
+      .l-mv__col
+        .l-mv__contents
+          .l-mv__heading
+            if(data.title)
+              h1.l-mv__title: span !{data.title}
+            if(data.subTitle)
+              p.l-mv__subtitle: span !{data.subTitle}
+          if(data.lead)
+            p.l-mv__lead !{data.lead}
+        if(data.titleEn)
+          .l-mv__bgEn !{data.titleEn}
+
+//----------------------------------------
+//- パンくず
+//----------------------------------------
 mixin crumbs(data = [])
   unless data == ''
-    .l-crumbsWrap
-      ul.l-crumbs
-        li: a.t-ttU(href="/") Top
-        each crumb in data
-          if crumb.path
-            li: a(href=crumb.path) !{crumb.label}
-          else
-            li: span !{crumb.label}
-
-//- 通常画像
-//- Sample
-  +image({
-    src: "/example/dummy-pc.png",
-    width: "800",
-    height: "400"
-    alt: ""
-  })
-
-//- mixin image(data)
-//-   img(src=data.src, width=data.width, height=data.height, loading="lazy", decoding="async", alt=data.alt)
-
-
-//- レスポンシブ画像
-//- mixin image(data)
-//-   figure
-//-     picture
-//-       source(srcset=image_path + data.pc.src media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
-//-       img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, loading="lazy", alt=data.alt)
+    .l-breadcrumb
+      .l-breadcrumb__inner
+        ul.l-breadcrumb__list
+          li: a.l-breadcrumb__link(href="/")
+            .u-hiddenPc
+              +svg({
+                src: "/icon_home_white.svg",
+                alt: "TOPへのリンク"
+              })
+            .u-hiddenSp
+              +svg({
+                src: "/icon_home.svg",
+                alt: "TOPへのリンク"
+              })
+          each crumb in data
+            if crumb.path
+              li: a.l-breadcrumb__link(href=crumb.path): span.l-breadcrumb__label !{crumb.label}
+            else
+              li: span.l-breadcrumb__label !{crumb.label}
 
 
-//- webP対応画像
-//- Sample
-    +image({
-    pc:{
-      src: "/example/dummy-pc.png",
-      width: "800",
-      height: "400"
-    },
-    sp:{
-      src: "/example/dummy.png",
-      width: "375",
-      height: "600"
-    },
-    alt: ""
-  })
 
+
+//----------------------------------------
+//- PHP インクルード
+//----------------------------------------
+mixin phpInclude(path)
+  != `<?php include $_SERVER['DOCUMENT_ROOT'] . '${path}' ?>`
+
+
+//----------------------------------------
+//- preload
+//----------------------------------------
+//- webpのフォールバックは行いません
+mixin preload(data)
+  each list in data
+    if(list.sp)
+      each path in list.sp
+        link(href=`/assets/images/top/${path}.webp` as='image' rel='preload')
+    if(list.pc)
+      each path in list.pc
+        link(href=`/assets/images/top/${path}.webp` as='image' rel='preload' media="(min-width: 768px)")
+
+
+
+
+//----------------------------------------
+//- Webp画像 - JPEG PNG
+//----------------------------------------
 mixin image(data)
+  picture
+    if data.pc
+      source(srcset=`${image_path}${data.pc.src}.webp`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height, type="image/webp")
+      source(srcset=image_path + data.pc.src media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
+      source(srcset=image_path + data.sp.src + ".webp"  width=data.sp.width, height=data.sp.height, type="image/webp")
+      img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, decoding="async", alt=data.alt ? data.alt : "")
+    else
+      source(srcset=`${image_path}${data.sp.src}.webp`, width=data.sp.width, height=data.sp.height, type="image/webp")
+      source(srcset=image_path + data.sp.src, width=data.sp.width, height=data.sp.height)
+      img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, decoding="async", alt=data.alt ? data.alt : "")
+
+//----------------------------------------
+//- Webp画像 - JPEG PNG figure captionが入る
+//----------------------------------------
+mixin caption-image(data)
   figure
     picture
-      if data.sp
+      if data.pc
         source(srcset=`${image_path}${data.pc.src}.webp`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height, type="image/webp")
         source(srcset=image_path + data.pc.src media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
         source(srcset=image_path + data.sp.src + ".webp"  width=data.sp.width, height=data.sp.height, type="image/webp")
-        img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, loading="lazy", alt=data.alt)
+        img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, decoding="async", alt=data.alt ? data.alt : "")
       else
-        source(srcset=`${image_path}${data.pc.src}.webp`, width=data.pc.width, height=data.pc.height, type="image/webp")
-        source(srcset=image_path + data.pc.src, width=data.pc.width, height=data.pc.height)
-        img(src=image_path + data.pc.src, width=data.pc.width, height=data.pc.height, loading="lazy", alt=data.alt)
+        source(srcset=`${image_path}${data.sp.src}.webp`, width=data.sp.width, height=data.sp.height, type="image/webp")
+        source(srcset=image_path + data.sp.src, width=data.sp.width, height=data.sp.height)
+        img(src=image_path + data.sp.src, width=data.sp.width, height=data.sp.height, decoding="async", alt=data.alt ? data.alt : "")
+    figcaption !{data.caption}
 
-
-//- 名前のルールが決まっている場合(jpg)
-  +responsiveJpgImage({
-    src: "/example/dummy",
-    sp:{
-      width: "375",
-      height: "660",
-    },
-    pc: {
-      width: "1920",
-      hight: "1280"
-    },
-    alt: ""
-  })
-mixin responsiveJpgImage(data)
-  figure
-    picture
-      if data.sp
-        source(srcset=`${image_path}${data.src}-pc.jpg.webp`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height, type="image/webp")
-        source(srcset=`${image_path}${data.src}-pc.jpg`, media=`(min-width: ${break_point}px)`, width=data.pc.width, height=data.pc.height)
-        source(srcset=`${image_path}${data.src}.jpg.webp`, width=data.sp.width, height=data.sp.height, type="image/webp")
-        img(src=`${image_path}${data.src}.jpg`, width=data.sp.width, height=data.sp.height, loading="lazy", alt=data.alt)
+//----------------------------------------
+//- SVG画像
+//----------------------------------------
+mixin svg(data)
+  img(src=image_path + data.src, width=data.width, height=data.height, decoding="async", alt=data.alt ? data.alt : "")

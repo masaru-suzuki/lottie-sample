@@ -7,8 +7,5 @@
     "source.fixAll.eslint": true // ファイル保存時にESLintでフォーマット
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": [
-    "ogimage",
-    "salut"
-  ]
+  "cSpell.words": ["ogimage", "salut"]
 }

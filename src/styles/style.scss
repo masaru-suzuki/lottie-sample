@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+@use './vendor/index' as *;
+@use './libs/index' as *;
+@use './foundation/index' as *;
+@use './layouts/index' as *;
+@use './components/index' as *;
+@use './pages/index' as *;
+@use './utilities/index' as *;
