@@ -37,7 +37,7 @@ const baseDir = './public/';
 
 const srcPath = {
   html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`],
-  // php: `${srcDir}views/includes/**/*.pug`,
+  php: `${srcDir}views/includes/**/*.pug`,
   css: `${srcDir}styles/*.scss`,
   img: `${srcDir}images/**`,
   webp: `${srcDir}images/**/*.+(jpg|jpeg|png)`,
@@ -46,7 +46,7 @@ const srcPath = {
 
 const destPath = {
   html: baseDir,
-  // php: `${baseDir}includes`,
+  php: `${baseDir}includes`,
   css: `${baseDir}assets/css`,
   js: `${baseDir}assets/js`,
   img: `${baseDir}assets/images`,
@@ -71,33 +71,31 @@ const html = () => {
   // return src(srcPath.html, {
   //   since: lastRun(html),
   // })
-  return (
-    src(srcPath.html)
-      .pipe(
-        plumber({
-          errorHandler: notify.onError('Error: <%= error.message %>'),
-        })
-      )
-      .pipe(
-        data((file) => {
-          return {
-            mockup: JSON.parse(fs.readFileSync(`${srcDir}data/mockup.json`)),
-          };
-        })
-      )
-      .pipe(
-        pug({
-          basedir: './src',
-          pretty: true,
-        })
-      )
-      // .pipe(
-      //   rename({
-      //     extname: '.php',
-      //   })
-      // )
-      .pipe(dest(destPath.html))
-  );
+  return src(srcPath.html)
+    .pipe(
+      plumber({
+        errorHandler: notify.onError('Error: <%= error.message %>'),
+      })
+    )
+    .pipe(
+      data((file) => {
+        return {
+          mockup: JSON.parse(fs.readFileSync(`${srcDir}data/mockup.json`)),
+        };
+      })
+    )
+    .pipe(
+      pug({
+        basedir: './src',
+        pretty: true,
+      })
+    )
+    .pipe(
+      rename({
+        extname: '.php',
+      })
+    )
+    .pipe(dest(destPath.html));
 };
 
 const php = () => {
