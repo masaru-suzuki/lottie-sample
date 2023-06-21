@@ -61,10 +61,10 @@ mixin preload(data)
   each list in data
     if(list.sp)
       each path in list.sp
-        link(href=`/assets/images/top/${path}.webp` as='image' rel='preload')
+        link(href=`/assets/images/${path}.webp` as='image' rel='preload')
     if(list.pc)
       each path in list.pc
-        link(href=`/assets/images/top/${path}.webp` as='image' rel='preload' media="(min-width: 768px)")
+        link(href=`/assets/images/${path}.webp` as='image' rel='preload' media="(min-width: 768px)")
 
 
 
