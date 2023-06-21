@@ -11,6 +11,7 @@ const pug = require('gulp-pug-3');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
+const cssnano = require('cssnano');
 const rename = require('gulp-rename');
 const autoprefixer = require('autoprefixer');
 const cssDeclarationSorter = require('css-declaration-sorter');
@@ -98,6 +99,9 @@ const html = () => {
     .pipe(dest(destPath.html));
 };
 
+/**
+ * compile php
+ */
 const php = () => {
   return src(srcPath.php)
     .pipe(
@@ -131,18 +135,19 @@ const php = () => {
  * compile css
  */
 const postCssPlugins = [autoprefixer({ grid: 'no-autoplace', cascade: false }), cssDeclarationSorter({ order: 'concentric-css' })];
+const prodPostCssPlugins = [autoprefixer({ grid: 'no-autoplace', cascade: false }), cssDeclarationSorter({ order: 'concentric-css' }), cssnano({ preset: 'default' })];
 
 const css = () => {
   return src(srcPath.css)
-    .pipe(sourcemaps.init())
+    .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.init()))
     .pipe(
       plumber({
         errorHandler: notify.onError('Error: <%= error.message %>'),
       })
     )
     .pipe(sass().on('error', sass.logError))
-    .pipe(postcss(postCssPlugins))
-    .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.write(`./maps/`)))
+    .pipe(gulpIf(process.env.NODE_ENV === 'production', postcss(prodPostCssPlugins)))
+    .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.write(`./maps/`), postcss(postCssPlugins)))
     .pipe(dest(destPath.css));
 };
 
@@ -222,7 +227,7 @@ const webp = () => {
  * clean
  */
 const clean = () => {
-  return del(['public/*/']);
+  return del(['public']);
 };
 
 /**
