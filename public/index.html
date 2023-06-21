@@ -29,7 +29,10 @@
     <link href="/assets/images/top/dummy.jpg.webp" as="image" rel="preload"/>
     <script src="/assets/js/main.js" defer></script>
   </head>
-  <body class="home" data-app="Home"><?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.php' ?>
+  <body class="home" data-app="Home">
+    <header class="header">
+      <p>header</p>
+    </header>
     <main class="main" id="pageTop">
       <div class="js-contents" id="js-contents">
         <h1>h1</h1>
@@ -39,6 +42,9 @@
           <source srcset="/assets/images/example/dummy.jpg.webp" width="375" height="600" type="image/webp"/><img src="/assets/images/example/dummy.jpg" width="375" height="600" decoding="async" alt=""/>
         </picture>
       </div>
-    </main><?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/footer.php' ?>
+    </main>
+    <footer class="footer">
+      <p>footer</p>
+    </footer>
   </body>
 </html>

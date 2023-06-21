@@ -91,11 +91,6 @@ const html = () => {
         pretty: true,
       })
     )
-    .pipe(
-      rename({
-        extname: '.php',
-      })
-    )
     .pipe(dest(destPath.html));
 };
 

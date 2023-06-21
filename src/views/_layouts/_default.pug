@@ -28,7 +28,8 @@ html(lang="ja")
     include /views/_components/_scripts
     include /views/_components/_ga_head
   body(data-app=page.appId, class=page.bodyClassName)
-    +phpInclude('/includes/header.php')
+    include /views/includes/_header
+    //- +phpInclude('/includes/header.php')
 
     main#pageTop.main
       +crumbs(page.crumbs)
@@ -36,5 +37,6 @@ html(lang="ja")
       #js-contents.js-contents
         block main
 
-    +phpInclude('/includes/footer.php')
+    include /views/includes/_footer
+    //- +phpInclude('/includes/footer.php')
     include /views/_components/_ga_body
