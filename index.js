@@ -7,7 +7,8 @@ const PORT = process.env.PORT || 3000;
 const BASIC_AUTH_USER = process.env.USER;
 const BASIC_AUTH_PASS = process.env.PASS;
 
-const docRoot = path.join(__dirname, 'public');
+// const docRoot = path.join(__dirname, 'public');
+const docRoot = path.join(__dirname, 'docs');
 
 const app = express();
 

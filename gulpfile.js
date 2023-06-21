@@ -34,10 +34,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const srcDir = './src/';
-const baseDir = './public/';
+const baseDir = './docs/';
 
 const srcPath = {
-  html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`],
+  html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`, `!${srcDir}views/includes/**/*.pug`],
+  // html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`],
   php: `${srcDir}views/includes/**/*.pug`,
   css: `${srcDir}styles/*.scss`,
   img: `${srcDir}images/**`,
@@ -222,26 +223,20 @@ const webp = () => {
  * clean
  */
 const clean = () => {
-  return del(['public']);
+  return del(['docs']);
 };
 
 /**
  * browser sync
  */
 const bs = () => {
-  connect.server(
-    {
-      base: 'public',
-      port: 3000, // browserSyncのproxy portと揃える
-      stdio: 'ignore', // terminalへの出力を止める
+  browserSync.init({
+    server: {
+      baseDir: 'docs',
+      ghostMode: false,
+      notify: false,
     },
-    function () {
-      browserSync({
-        proxy: '127.0.0.1:3000',
-        notify: false,
-      });
-    }
-  );
+  });
 };
 
 /**
