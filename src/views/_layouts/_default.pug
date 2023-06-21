@@ -4,11 +4,11 @@ include /views/_components/_mixins
 block variable
   -
     var page= {
-      url: "https://www.gentosha.co.jp",
+      url: "https://www.dummy.co.jp",
       locale: "ja_jp",
-      siteName: "幻冬舎公式サイト",
-      title: "幻冬舎公式サイト", // title, meta title, og:title
-      description: "幻冬舎の公式サイト。作品の最新情報から特集・ニュースなど様々な情報がご覧いただけます。", // meta description og:description
+      siteName: "dummyサイト",
+      title: "dummyサイト", // title, meta title, og:title
+      description: "dummy description", // meta description og:description
       dir: '/', // og:url, canonical
       ogimage: '/assets/images/ogp.png', //ogp
       type: 'website', // og:type
@@ -25,6 +25,7 @@ html(lang="ja")
     include /views/_components/_fonts
     include /views/_components/_styles
     block preload
+    include /views/_components/_scripts
     include /views/_components/_ga_head
   body(data-app=page.appId, class=page.bodyClassName)
     +phpInclude('/includes/header.php')
@@ -35,9 +36,5 @@ html(lang="ja")
       #js-contents.js-contents
         block main
 
-    if page.advancedSearch
-      +phpInclude('/includes/search.php')
-
     +phpInclude('/includes/footer.php')
     include /views/_components/_ga_body
-    include /views/_components/_scripts

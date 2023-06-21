@@ -9,24 +9,25 @@
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="description" content="dummy description">
-    <link rel="canonical" href="https://www.gentosha.co.jp/">
+    <link rel="canonical" href="https://www.dummy.co.jp/">
     <meta property="og:locale" content="ja_jp">
     <meta name="og:site_name" content="top page dummy">
-    <meta property="og:url" content="https://www.gentosha.co.jp/">
+    <meta property="og:url" content="https://www.dummy.co.jp/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="top page dummy">
     <meta property="og:description" content="dummy description">
-    <meta name="og:image" content="https://www.gentosha.co.jp/assets/images/ogp.png">
+    <meta name="og:image" content="https://www.dummy.co.jp/assets/images/ogp.png">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://www.gentosha.co.jp/assets/images/ogp.png">
-    <meta name="twitter:url" content="https://www.gentosha.co.jp/">
+    <meta name="twitter:image" content="https://www.dummy.co.jp/assets/images/ogp.png">
+    <meta name="twitter:url" content="https://www.dummy.co.jp/">
     <meta name="twitter:description" content="dummy description">
     <meta name="twitter:title" content="top page dummy">
-    <link rel="stylesheet" href="/assets/css//main.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link href="/assets/images/top/dummy-pc.jpg.webp" as="image" rel="preload"/>
     <link href="/assets/images/top/dummy.jpg.webp" as="image" rel="preload"/>
+    <script src="/assets/js/main.js" defer></script>
   </head>
   <body class="home" data-app="Home"><?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.php' ?>
     <main class="main" id="pageTop">
@@ -39,6 +40,5 @@
         </picture>
       </div>
     </main><?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/footer.php' ?>
-    <script src="/assets/js/main.js" async></script>
   </body>
 </html>
