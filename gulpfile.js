@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 const srcDir = './src/';
 const baseDir = './docs/';
 const DEVELOPMENT_DIR = '';
-const PRODUCTION_DIR = 'https://masaru-suzuki.github.io/web-template-static';
+const PRODUCTION_DIR = 'https://masaru-suzuki.github.io/lottie-sample';
 
 const srcPath = {
   html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`, `!${srcDir}views/includes/**/*.pug`],
