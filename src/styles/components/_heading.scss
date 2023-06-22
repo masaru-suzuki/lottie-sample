@@ -1,5 +1,11 @@
-@use '../foundation/index';
+@use '../foundation/index' as *;
 
 .c-headingLv1 {
-  font-size: 2rem;
+  font-size: rem(32);
+}
+
+.c-headingLv2 {
+  margin-top: clamp_rem($min: 24, $max: 48);
+  margin-bottom: clamp_rem($min: 16, $max: 24);
+  font-size: rem(24);
 }

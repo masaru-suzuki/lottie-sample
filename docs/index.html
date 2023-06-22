@@ -1,51 +1,90 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="format-detection" content="telephone=no" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
     <title>top page dummy</title>
-    <meta name="robots" content="index,follow" />
-    <meta name="googlebot" content="index,follow" />
-    <meta name="description" content="dummy description" />
-    <link rel="canonical" href="https://masaru-suzuki.github.io/web-template-static/" />
-    <meta property="og:locale" content="ja_jp" />
-    <meta name="og:site_name" content="top page dummy" />
-    <meta property="og:url" content="https://masaru-suzuki.github.io/web-template-static/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="top page dummy" />
-    <meta property="og:description" content="dummy description" />
-    <meta name="og:image" content="https://masaru-suzuki.github.io/web-template-static/assets/images/ogp.png" />
-    <link rel="shortcut icon" href="https://masaru-suzuki.github.io/web-template-static/favicon.ico" />
-    <link rel="apple-touch-icon" href="https://masaru-suzuki.github.io/web-template-static/apple-touch-icon.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://masaru-suzuki.github.io/web-template-static/assets/images/ogp.png" />
-    <meta name="twitter:url" content="https://masaru-suzuki.github.io/web-template-static/" />
-    <meta name="twitter:description" content="dummy description" />
-    <meta name="twitter:title" content="top page dummy" />
-    <link rel="stylesheet" href="https://masaru-suzuki.github.io/web-template-static/assets/css/style.css" />
-    <link href="https://masaru-suzuki.github.io/web-template-static/assets/images/dummy-pc.jpg.webp" as="image" rel="preload" />
-    <link href="https://masaru-suzuki.github.io/web-template-static/assets/images/dummy.jpg.webp" as="image" rel="preload" />
-    <script src="https://masaru-suzuki.github.io/web-template-static/assets/js/main.js" defer></script>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="description" content="dummy description">
+    <link rel="canonical" href="https://masaru-suzuki.github.io/web-template-static/">
+    <meta property="og:locale" content="ja_jp">
+    <meta name="og:site_name" content="top page dummy">
+    <meta property="og:url" content="https://masaru-suzuki.github.io/web-template-static/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="top page dummy">
+    <meta property="og:description" content="dummy description">
+    <meta name="og:image" content="https://masaru-suzuki.github.io/web-template-static/assets/images/ogp.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://masaru-suzuki.github.io/web-template-static/assets/images/ogp.png">
+    <meta name="twitter:url" content="https://masaru-suzuki.github.io/web-template-static/">
+    <meta name="twitter:description" content="dummy description">
+    <meta name="twitter:title" content="top page dummy">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="/assets/images/dummy-pc.jpg.webp" as="image" rel="preload"/>
+    <link href="/assets/images/dummy.jpg.webp" as="image" rel="preload"/>
+    <script src="/assets/js/main.js" defer></script>
   </head>
   <body class="home" data-app="Home">
-    <header class="header">
-      <p>header</p>
+    <header class="l-header">
+      <div class="l-header__inner">
+        <p>header</p>
+      </div>
     </header>
     <main class="main" id="pageTop">
       <div class="js-contents" id="js-contents">
-        <h1>h1</h1>
-        <picture>
-          <source srcset="https://masaru-suzuki.github.io/web-template-static/assets/images/example/dummy-pc.jpg.webp" media="(min-width: 768px)" width="800" height="400" type="image/webp" />
-          <source srcset="https://masaru-suzuki.github.io/web-template-static/assets/images/example/dummy-pc.jpg" media="(min-width: 768px)" width="800" height="400" />
-          <source srcset="https://masaru-suzuki.github.io/web-template-static/assets/images/example/dummy.jpg.webp" width="375" height="600" type="image/webp" />
-          <img src="https://masaru-suzuki.github.io/web-template-static/assets/images/example/dummy.jpg" width="375" height="600" decoding="async" alt="" />
-        </picture>
+        <div class="l-contents">
+          <h1 class="c-headingLv1">gsap animation</h1>
+          <div class="l-section">
+            <h2 class="c-headingLv2">gsap animation timeline sample</h2>
+            <p>直列につなぐ</p>
+            <div class="p-home-lottie-box">
+              <div class="box green">box1</div>
+              <div class="box purple">box2</div>
+              <div class="box orange">box3</div>
+            </div>
+          </div>
+          <div class="l-section">
+            <h2 class="c-headingLv2">gsap animation timeline sample</h2>
+            <p>モーションは直列でつないでいくと台本的な動きになりがちです。滑らかに演出を見せるためには、モーションを重ねることが多いです</p>
+            <div class="p-home-lottie-box">
+              <h3 class="js-section02-heading">Show Motion</h3>
+              <div class="p-home-lottie-box -flex">
+                <div class="box box1 sample02"></div>
+                <div class="box box2 sample02"></div>
+                <div class="box box3 sample02"></div>
+                <div class="box box4 sample02"></div>
+                <div class="box box5 sample02"></div>
+                <div class="box box6 sample02"></div>
+              </div>
+            </div>
+          </div>
+          <div class="l-section">
+            <h2 class="c-headingLv2">gsap animation timeline 入れ子サンプル</h2>
+            <p>モーションは直列でつないでいくと台本的な動きになりがちです。滑らかに演出を見せるためには、モーションを重ねることが多いです</p>
+            <div class="p-home-lottie-box">
+              <h3 class="js-section02-heading">Show Motion</h3>
+              <div class="p-home-lottie-box -flex">
+                <div class="box box1 sample02"></div>
+                <div class="box box2 sample02"></div>
+                <div class="box box3 sample02"></div>
+                <div class="box box4 sample02"></div>
+                <div class="box box5 sample02"></div>
+                <div class="box box6 sample02"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
-    <footer class="footer">
-      <p>footer</p>
+    <footer class="l-footer">
+      <div class="l-footer__inner">
+        <p>footer</p>
+      </div>
     </footer>
   </body>
 </html>
