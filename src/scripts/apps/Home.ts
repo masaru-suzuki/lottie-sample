@@ -60,7 +60,7 @@ const createChildTimeline = (element) => {
         duration: 1,
         ease: 'power4.out',
       },
-      '-=50%' //かぶり率
+      '-=80%' //かぶり率
     );
   // .to(
   //   element,
@@ -76,7 +76,7 @@ const createChildTimeline = (element) => {
 
 const gsapTimelineSample3 = () => {
   document.querySelectorAll('.p-home-gsap-word').forEach((word) => {
-    tl.add(createChildTimeline(word), '-=0.5');
+    tl.add(createChildTimeline(word), '-=80%');
   });
 };
 
