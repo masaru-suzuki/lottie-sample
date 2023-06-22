@@ -359,6 +359,7 @@ $git push heroku main
 
 ## その他注意事項
 
+- 本番パスと開発用パスを gulp で分岐しています。flag は`<%= path %>`。scss で url を設定する場合は flag を忘れないようにつける必要があります。
 - assets 情報は相対パスでの読み込みになっています。
 - markuplint のエラーを解消してからプッシュを行ってください。
 - **必ず `build` を実行** してから、プッシュを行ってください。start と build では sourcemap まわりなどで処理に差異があります。
