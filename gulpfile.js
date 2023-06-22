@@ -8,6 +8,7 @@ const browserSync = require('browser-sync');
 const fs = require('fs');
 const data = require('gulp-data');
 const pug = require('gulp-pug-3');
+const template = require('gulp-template');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
@@ -35,6 +36,8 @@ if (process.env.NODE_ENV === 'production') {
 
 const srcDir = './src/';
 const baseDir = './docs/';
+const DEVELOPMENT_DIR = '';
+const PRODUCTION_DIR = 'https://masaru-suzuki.github.io/web-template-static';
 
 const srcPath = {
   html: [`${srcDir}views/**/*.pug`, `!${srcDir}views/**/_*.pug`, `!${srcDir}views/includes/**/*.pug`],
@@ -68,17 +71,18 @@ const watchPath = {
 /**
  * compile html
  */
-const html = () => {
+const html = async () => {
   // lastRun をオプションに入れると _**.pugファイルを編集した際に、reloadが走らない
   // return src(srcPath.html, {
   //   since: lastRun(html),
   // })
-  return src(srcPath.html)
+  return await src(srcPath.html)
     .pipe(
       plumber({
         errorHandler: notify.onError('Error: <%= error.message %>'),
       })
     )
+
     .pipe(
       data((file) => {
         return {
@@ -92,6 +96,10 @@ const html = () => {
         pretty: true,
       })
     )
+    // TODO:gulp dataの方で書き換えできる？
+    // エスケープさせない方法はない？
+    .pipe(gulpIf(process.env.NODE_ENV === 'production', template({ path: PRODUCTION_DIR })))
+    .pipe(gulpIf(process.env.NODE_ENV !== 'production', template({ path: DEVELOPMENT_DIR })))
     .pipe(dest(destPath.html));
 };
 
