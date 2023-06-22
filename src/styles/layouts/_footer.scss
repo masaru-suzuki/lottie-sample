@@ -1,4 +1,13 @@
 @use '../foundation/index' as *;
 
 .l-footer {
+  display: grid;
+  place-items: center;
+  background-color: #66cdaa;
+}
+
+.l-footer__inner {
+  max-width: rem(1200);
+  padding-block: rem(1);
+  margin-inline: auto;
 }

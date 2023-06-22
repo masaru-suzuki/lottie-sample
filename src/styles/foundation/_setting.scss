@@ -18,6 +18,9 @@ html {
 
 body {
   @include font-gothic-bold;
+  display: grid;
+  grid-template-rows: var(--header-height-pc) 1fr var(--header-height-pc);
+  min-height: 100vh;
   overflow: hidden;
   line-height: 1.5;
   color: var(--color-black);

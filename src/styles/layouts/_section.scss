@@ -1,4 +1,6 @@
 @use '../foundation/index' as *;
 
 .l-section {
+  max-width: rem(1200);
+  margin-inline: auto;
 }

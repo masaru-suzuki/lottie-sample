@@ -1,4 +1,12 @@
 @use '../foundation/index' as *;
 
 .l-header {
+  display: grid;
+  place-items: center;
+  background-color: #ffc0cb;
+}
+
+.l-header__inner {
+  max-width: rem(1200);
+  margin-inline: auto;
 }

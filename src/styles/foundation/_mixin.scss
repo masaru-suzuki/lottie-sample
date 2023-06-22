@@ -120,8 +120,7 @@ $CONTENTS_WIDTH: 1366;
 // $min < $max
 // https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
 // ---------------------------------------
-
-@function clamp_xl($min, $max) {
+@function clamp_rem($min, $max) {
   // 最小値
   $min_size: rem($min);
 
@@ -132,8 +131,8 @@ $CONTENTS_WIDTH: 1366;
   // slope = (最大フォントサイズ – 最小フォントサイズ) / (最大viewport – 最小viewport)
   // yAxisIntersection = -最小viewport * slope + 最小フォントサイズ
   // preferredValue = yAxisIntersection[rem] + (slope * 100)[vw]
-  $slope: math.div(($max - $min), ($BREAKPOINT_PC_LG - $BREAKPOINT_PC));
-  $yAxisIntersection: -1 * $BREAKPOINT_PC * $slope + $min;
+  $slope: math.div(($max - $min), ($BREAKPOINT_TABLET - $BREAKPOINT_SP));
+  $yAxisIntersection: -1 * $BREAKPOINT_SP * $slope + $min;
   $preferredValue: rem($yAxisIntersection);
   $middle: #{$preferredValue} + ' + ' + $slope * 100vw;
 
