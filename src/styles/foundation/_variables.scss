@@ -1,42 +1,42 @@
 @font-face {
   font-family: 'Font-gothic-regular';
-  src: url('/assets/fonts/NotoSansJP_regular.woff2') format('woff2');
-  src: url('/assets/fonts/NotoSansJP_regular.woff') format('woff');
+  src: url('<%= path %>/assets/fonts/NotoSansJP_regular.woff2') format('woff2');
+  src: url('<%= path %>/assets/fonts/NotoSansJP_regular.woff') format('woff');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Font-gothic-medium';
-  src: url('/assets/fonts/NotoSansJP_medium.woff2') format('woff2');
-  src: url('/assets/fonts/NotoSansJP_medium.woff') format('woff');
+  src: url('<%= path %>/assets/fonts/NotoSansJP_medium.woff2') format('woff2');
+  src: url('<%= path %>/assets/fonts/NotoSansJP_medium.woff') format('woff');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Font-gothic-bold';
-  src: url('/assets/fonts/NotoSansJP_bold.woff2') format('woff2');
-  src: url('/assets/fonts/NotoSansJP_bold.woff') format('woff');
+  src: url('<%= path %>/assets/fonts/NotoSansJP_bold.woff2') format('woff2');
+  src: url('<%= path %>/assets/fonts/NotoSansJP_bold.woff') format('woff');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Font-mincho';
-  src: url('/assets/fonts/NotoSerifJP_black.woff2') format('woff2');
-  src: url('/assets/fonts/NotoSerifJP_black.woff') format('woff');
+  src: url('<%= path %>/assets/fonts/NotoSerifJP_black.woff2') format('woff2');
+  src: url('<%= path %>/assets/fonts/NotoSerifJP_black.woff') format('woff');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Font-en';
-  src: url('/assets/fonts/Playfair_Display.woff2') format('woff2');
-  src: url('/assets/fonts/Playfair_Display.woff') format('woff');
+  src: url('<%= path %>/assets/fonts/Playfair_Display.woff2') format('woff2');
+  src: url('<%= path %>/assets/fonts/Playfair_Display.woff') format('woff');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Font-decoration';
-  src: url('/assets/fonts/Poppins.woff2') format('woff2');
-  src: url('/assets/fonts/Poppins.woff') format('woff');
+  src: url('<%= path %>/assets/fonts/Poppins.woff2') format('woff2');
+  src: url('<%= path %>/assets/fonts/Poppins.woff') format('woff');
   font-display: swap;
 }
 
