@@ -13,6 +13,7 @@ main {
 
   &.-flex {
     display: flex;
+    flex-wrap: wrap;
     gap: clamp_rem($min: 24, $max: 32);
   }
 }
@@ -36,4 +37,23 @@ main {
 
 .orange {
   background-color: #f5a623;
+}
+
+.p-home-gsap-word {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffca36;
+}
+
+.p-home-gsap-rect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0070b3;
 }
