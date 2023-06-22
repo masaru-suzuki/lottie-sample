@@ -1,3 +1,5 @@
+import { gsap } from 'gsap';
+
 const homeFn = () => {
   console.log('home fn');
 };
