@@ -96,8 +96,6 @@ const html = async () => {
         pretty: true,
       })
     )
-    // TODO:gulp dataの方で書き換えできる？
-    // エスケープさせない方法はない？
     .pipe(gulpIf(process.env.NODE_ENV === 'production', template({ path: PRODUCTION_DIR })))
     .pipe(gulpIf(process.env.NODE_ENV !== 'production', template({ path: DEVELOPMENT_DIR })))
     .pipe(dest(destPath.html));
@@ -142,17 +140,22 @@ const postCssPlugins = [autoprefixer({ grid: 'no-autoplace', cascade: false }), 
 const prodPostCssPlugins = [autoprefixer({ grid: 'no-autoplace', cascade: false }), cssDeclarationSorter({ order: 'concentric-css' }), cssnano({ preset: 'default' })];
 
 const css = () => {
-  return src(srcPath.css)
-    .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.init()))
-    .pipe(
-      plumber({
-        errorHandler: notify.onError('Error: <%= error.message %>'),
-      })
-    )
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulpIf(process.env.NODE_ENV === 'production', postcss(prodPostCssPlugins)))
-    .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.write(`./maps/`), postcss(postCssPlugins)))
-    .pipe(dest(destPath.css));
+  return (
+    src(srcPath.css)
+      .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.init()))
+      .pipe(
+        plumber({
+          errorHandler: notify.onError('Error: <%= error.message %>'),
+        })
+      )
+      .pipe(sass().on('error', sass.logError))
+      // MEMO: gulp-ifで並列処理をするとtemplateのpathが変更されない
+      .pipe(gulpIf(process.env.NODE_ENV === 'production', template({ path: PRODUCTION_DIR })))
+      .pipe(gulpIf(process.env.NODE_ENV !== 'production', template({ path: DEVELOPMENT_DIR })))
+      .pipe(gulpIf(process.env.NODE_ENV === 'production', postcss(prodPostCssPlugins)))
+      .pipe(gulpIf(process.env.NODE_ENV !== 'production', sourcemaps.write(`./maps/`), postcss(postCssPlugins)))
+      .pipe(dest(destPath.css))
+  );
 };
 
 /**
