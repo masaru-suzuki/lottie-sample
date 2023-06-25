@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+gsap.registerPlugin(ScrollTrigger);
 // const gsapSample = () => {
 //   gsap.to('.box', {
 //     x: 200,
@@ -9,16 +9,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const complete = () => console.log('complete');
 
-const gsapSample = () => {
-  gsap.to('.box', { x: 200, backgroundColor: 'red', rotate: 180, duration: 1, yoyo: true, repeat: 1, onComplete: complete, ease: 'power1.inOut' });
-};
-
 const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
 
 const gsapTimelineSample = () => {
-  tl.add(gsap.to('.green', { x: 600, duration: 1 }));
-  tl.add(gsap.to('.purple', { x: 600, duration: 0.5 }));
-  tl.add(gsap.to('.orange', { x: 600, duration: 0.2 }));
+  tl.add(gsap.to('.box.green.js-box-01', { x: 600, duration: 1 }));
+  tl.add(gsap.to('.box.purple.js-box-01', { x: 600, duration: 0.5 }));
+  tl.add(gsap.to('.box.orange.js-box-01', { x: 600, duration: 0.2 }));
 };
 
 const gsapTimelineSample2 = () => {
@@ -81,8 +77,22 @@ const gsapTimelineSample3 = () => {
   });
 };
 
+const gsapScrollTriggerSample = () => {
+  gsap.to('.js-scrollTrigger-box-01', {
+    x: 600,
+    scrollTrigger: {
+      trigger: '.p-home-animation-area',
+      start: 'top 80%',
+      end: 'bottom 20%',
+      toggleActions: 'play none none reverse',
+      markers: true,
+    },
+  });
+};
+
 export const Home = () => {
   gsapTimelineSample();
   gsapTimelineSample2();
   gsapTimelineSample3();
+  gsapScrollTriggerSample();
 };
